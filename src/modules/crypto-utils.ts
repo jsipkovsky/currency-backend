@@ -165,6 +165,8 @@ export async function checkPrices() {
                 newStrategy.volume_day_two = volumeDayTwo;
                 newStrategy.exchange_one = ticker1.exchange;
                 newStrategy.exchange_two = ticker2.exchange;
+                newStrategy.price_one = price1;
+                newStrategy.price_two = price2;
                 newStrategy.timestamp = timestamp.toString();
                 objectsToSave.push(newStrategy);
   
