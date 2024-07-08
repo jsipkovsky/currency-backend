@@ -49,4 +49,10 @@ export class CoinCalculation {
 
     @Column('decimal', { precision: 20, scale: 4, default: 0 })
         price_two!: number;
+
+    @Column('varchar', { nullable: false, length: 45 })
+        type_one!: string;
+
+    @Column('varchar', { nullable: false, length: 45 })
+        type_two!: string;
 }

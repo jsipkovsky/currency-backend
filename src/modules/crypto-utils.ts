@@ -18,23 +18,25 @@ const exchanges: {
   let exchangesData = new Map();
   
   type ExchangeMap = Map<string, string>;
-  const readAndStoreExchangesData = (): ExchangeMap => {
+  const readAndStoreExchangesData = (): Promise<ExchangeMap> => {
     const filePath = path.resolve('exchanges_data.csv');
-    const exchangesMap = new Map();
+    const exchangesMap = new Map<string, string>();
   
-    const parser = fs.createReadStream(filePath)
-      .pipe(csvParse({ columns: true }))
-      .on('data', (row: { Name: any; IsCentralized: any; }) => {
-        exchangesMap.set(row.Name, row.IsCentralized);
-      })
-      .on('end', () => {
-        console.log('CSV file successfully processed:');
-        // console.log(exchangesMap);
-      })
-      .on('error', (error: any) => {
-        console.error('Error reading CSV file:', error);
-      });
-    return exchangesMap;
+    return new Promise((resolve, reject) => {
+      const parser = fs.createReadStream(filePath)
+        .pipe(csvParse({ columns: true }))
+        .on('data', (row: { Name: string; IsCentralized: string; }) => {
+          exchangesMap.set(row.Name, row.IsCentralized);
+        })
+        .on('end', () => {
+          console.log('CSV file successfully processed.');
+          resolve(exchangesMap);
+        })
+        .on('error', (error: any) => {
+          console.error('Error reading CSV file:', error);
+          reject(error);
+        });
+    });
   };
 
 async function fetchAllTickers(exchange:string, limit:number = 100) {
@@ -75,11 +77,13 @@ export async function checkPrices() {
     try {
       const exchangesResponse = await axios.get('https://pro-api.coingecko.com/api/v3/exchanges/list', { headers });
       const exchanges = exchangesResponse.data;
-
-      const uniqueRandomExchanges = getRandomUniqueElements(exchanges, 25);
+      const uniqueRandomExchanges = getRandomUniqueElements(exchanges, 10);
 
         // Add selected exchanges to exchangeList ensuring there are no duplicates
-        const exchangeListBase = ['kraken', 'gdax', 'huobi', 'binance', 'bitfinex', 'bittrex', 'kucoin', 'okex', 'bitstamp', 'poloniex']
+        const exchangeListBase = ['kraken', 'gdax', 'huobi', 'binance', 'bitfinex', 'bittrex', 'kucoin',
+          'gemini', 'crypto_com', 'okex', 'bitstamp', 'poloniex', 'bybit', 'gate', 'poloniex', 'coincheck', 
+          'bitflyer', 'phemex', 'probit', 'whitebit', 'bitmax', 'coinlist', 'bingx', 'bithumb', 'lbank',
+          'uniwswap', 'sushiswap', 'balancer', 'curve-base', 'jupiter', 'quickswap']
         const uniqueExchangeList = new Set([...exchangeListBase, ...uniqueRandomExchanges]);
 
         // Convert the Set back to an array
@@ -103,7 +107,7 @@ export async function checkPrices() {
         });
       }
 
-      const exchangesData = readAndStoreExchangesData();
+      const exchangesData = await readAndStoreExchangesData();
 
       const objectsToSave = [];
 
@@ -168,6 +172,8 @@ export async function checkPrices() {
                 newStrategy.price_one = price1;
                 newStrategy.price_two = price2;
                 newStrategy.timestamp = timestamp.toString();
+                newStrategy.type_one = isCentralized1 ? 'CEX' : 'DEX';
+                newStrategy.type_two = isCentralized2 ? 'CEX' : 'DEX';
                 objectsToSave.push(newStrategy);
   
     
