@@ -156,25 +156,6 @@ export async function checkPrices() {
 
 
                 console.log('priceDifferencePercent:', priceDifferencePercent);
-                const newStrategy = new CoinCalculation();
-                newStrategy.pair = pair;
-                newStrategy.perc_difference =priceDifferencePercent;
-                newStrategy.ticker_one_depth = tickerOneDepth;
-                newStrategy.ticker_two_depth = tickerTwoDepth;
-                newStrategy.ticker_one_depth_minus = tickerOneDepthMinus;
-                newStrategy.ticker_two_depth_minus = tickerTwoDepthMinus;
-                newStrategy.spread_one = spreadOne;
-                newStrategy.spread_two = spreadTwo;
-                newStrategy.volume_day_one = volumeDayOne;
-                newStrategy.volume_day_two = volumeDayTwo;
-                newStrategy.exchange_one = ticker1.exchange;
-                newStrategy.exchange_two = ticker2.exchange;
-                newStrategy.price_one = price1;
-                newStrategy.price_two = price2;
-                newStrategy.timestamp = timestamp.toString();
-                newStrategy.type_one = isCentralized1 ? 'CEX' : 'DEX';
-                newStrategy.type_two = isCentralized2 ? 'CEX' : 'DEX';
-                objectsToSave.push(newStrategy);
   
     
                 let percDiffMin = 4.5;
@@ -185,6 +166,27 @@ export async function checkPrices() {
                 }
                 const significantPriceDifferences = [];
                 if (priceDifferencePercent > percDiffMin && priceDifferencePercent < 50) {
+
+                  const newStrategy = new CoinCalculation();
+                  newStrategy.pair = pair;
+                  newStrategy.perc_difference =priceDifferencePercent;
+                  newStrategy.ticker_one_depth = tickerOneDepth;
+                  newStrategy.ticker_two_depth = tickerTwoDepth;
+                  newStrategy.ticker_one_depth_minus = tickerOneDepthMinus;
+                  newStrategy.ticker_two_depth_minus = tickerTwoDepthMinus;
+                  newStrategy.spread_one = spreadOne;
+                  newStrategy.spread_two = spreadTwo;
+                  newStrategy.volume_day_one = volumeDayOne;
+                  newStrategy.volume_day_two = volumeDayTwo;
+                  newStrategy.exchange_one = ticker1.exchange;
+                  newStrategy.exchange_two = ticker2.exchange;
+                  newStrategy.price_one = price1;
+                  newStrategy.price_two = price2;
+                  newStrategy.timestamp = timestamp.toString();
+                  newStrategy.type_one = isCentralized1 ? 'CEX' : 'DEX';
+                  newStrategy.type_two = isCentralized2 ? 'CEX' : 'DEX';
+                  objectsToSave.push(newStrategy);
+
                   significantPriceDifferences.push({
                     exchange1: ticker1.exchange,
                     exchange2: ticker2.exchange,
