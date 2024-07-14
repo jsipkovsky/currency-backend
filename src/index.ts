@@ -13,7 +13,7 @@ app.listen(port, async () => {
     console.log('database initialized.🗄️');
     // checkPrices();
 
-    schedule.scheduleJob('*/5 * * * *', checkPrices);
+    schedule.scheduleJob('*/10 * * * *', checkPrices);
   }).catch((error: Error) => {
     console.error('Error initializing dB:', error);
   });

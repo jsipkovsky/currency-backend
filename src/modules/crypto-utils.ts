@@ -5,6 +5,8 @@ import { AppDataSource } from "./database-access";
 const csvParse = require('csv-parser');
 const fs = require('fs');
 
+// let apiCalls = 0;
+
 const headers = {accept: 'application/json', 'x-cg-pro-api-key': 'CG-ZBiwLSf6bKGWUEBqkBpcGsuF'};
 
 const exchanges: {
@@ -48,7 +50,7 @@ async function fetchAllTickers(exchange:string, limit:number = 100) {
       try {
         const response = await axios.get(url, { headers });
         const tickers = response.data.tickers;
-        
+        // apiCalls += 1;
         if (tickers.length === 0) {
           break; // No more tickers to fetch
         }
@@ -77,17 +79,17 @@ export async function checkPrices() {
     try {
       const exchangesResponse = await axios.get('https://pro-api.coingecko.com/api/v3/exchanges/list', { headers });
       const exchanges = exchangesResponse.data;
-      const uniqueRandomExchanges = getRandomUniqueElements(exchanges, 10);
+      // const uniqueRandomExchanges = getRandomUniqueElements(exchanges, 10);
 
         // Add selected exchanges to exchangeList ensuring there are no duplicates
-        const exchangeListBase = ['kraken', 'gdax', 'huobi', 'binance', 'bitfinex', 'bittrex', 'kucoin',
-          'gemini', 'crypto_com', 'okex', 'bitstamp', 'poloniex', 'bybit', 'gate', 'poloniex', 'coincheck', 
-          'bitflyer', 'phemex', 'probit', 'whitebit', 'bitmax', 'coinlist', 'bingx', 'bithumb', 'lbank',
-          'uniwswap', 'sushiswap', 'balancer', 'curve-base', 'jupiter', 'quickswap']
-        const uniqueExchangeList = new Set([...exchangeListBase, ...uniqueRandomExchanges]);
+        const exchangeList = ['kraken', 'gdax', 'huobi', 'binance', 'bitfinex', 'kucoin',
+          'gemini', 'crypto_com', 'okex', 'bitstamp', 'poloniex', 'gate', 'poloniex', 
+          'phemex', 'whitebit', 'bitmax', 'bingx', 'bithumb', 'lbank']
+          // 'uniwswap', 'sushiswap', 'balancer', 'curve-base', 'jupiter', 'quickswap']
+        // const uniqueExchangeList = new Set([...exchangeListBase, ...uniqueRandomExchanges]);
 
         // Convert the Set back to an array
-        const exchangeList = Array.from(uniqueExchangeList);
+        // const exchangeList = Array.from(uniqueExchangeList);
 
 
       const allTickersMap: { [key: string]: any[] } = {};
@@ -106,6 +108,8 @@ export async function checkPrices() {
           });
         });
       }
+
+      // console.log(apiCalls, 'API calls made');
 
       const exchangesData = await readAndStoreExchangesData();
 
