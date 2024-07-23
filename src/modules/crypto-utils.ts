@@ -82,7 +82,7 @@ export async function checkPrices() {
       // const uniqueRandomExchanges = getRandomUniqueElements(exchanges, 10);
 
         // Add selected exchanges to exchangeList ensuring there are no duplicates
-        const exchangeList = ['kraken', 'gdax', 'huobi', 'binance', 'bitfinex', 'kucoin',
+        const exchangeList = ['kraken', 'gdax', 'huobi', 'binance', 'bitfinex', 'kucoin', 'azbit',
           'gemini', 'crypto_com', 'okex', 'bitstamp', 'poloniex', 'gate', 'poloniex', 
           'phemex', 'whitebit', 'bitmax', 'bingx', 'bithumb', 'lbank']
           // 'uniwswap', 'sushiswap', 'balancer', 'curve-base', 'jupiter', 'quickswap']
@@ -166,7 +166,7 @@ export async function checkPrices() {
                 if (!isCentralized1 && !isCentralized2) {
                   percDiffMin = 4;
                 } else if (isCentralized1 && isCentralized2) {
-                  percDiffMin = 2.5;
+                  percDiffMin = 3;
                 }
                 const significantPriceDifferences = [];
                 if (priceDifferencePercent > percDiffMin && priceDifferencePercent < 50) {

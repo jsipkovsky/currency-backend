@@ -12,6 +12,12 @@ app.listen(port, async () => {
 
     console.log('database initialized.🗄️');
     // checkPrices();
+    // Call the function (example):
+    // executeTrade('BTC/USDT', 0.01, 1000).then(result => {
+    //   console.log('Trade execution result:', result);
+    // }).catch(err => {
+    //   console.error('Error executing trade:', err);
+    // });
 
     schedule.scheduleJob('*/10 * * * *', checkPrices);
   }).catch((error: Error) => {
