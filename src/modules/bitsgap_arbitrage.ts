@@ -87,6 +87,8 @@ async function executeTrade(symbol: string, tradeAmount: number, currentPrice: n
     { symbol: symbol, amount: tradeAmount, price: currentPrice, exchange: 'bitfinex', side: 'buy', type: 'market' },
     { headers: { 'X-BFX-APIKEY': bitfinexApiKey } });
 
+    // transfer
+
   // Step 4: Repay Margin on Exchange A (Binance)
   const binanceRepayLoan = await axios.post('https://api.binance.com/api/v3/margin/repay', 
     { asset: 'BTC', amount: tradeAmount },

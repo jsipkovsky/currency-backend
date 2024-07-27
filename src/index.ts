@@ -5,6 +5,7 @@ import { checkPrices } from './modules/crypto-utils';
 import { AppDataSource } from './modules/database-access';
 import { getAzbitAccount } from './modules/azbit';
 import { getPublicIP } from './modules/common';
+import { ArbitrageManager } from './modules/arbitrage-manager';
 
 const port = process.env.PORT || 8080;
 
@@ -15,6 +16,10 @@ app.listen(port, async () => {
     console.log('database initialized.🗄️');
     const ip = await getPublicIP();
     console.log('Public IP:', ip);
+
+    const arbitrageManager = new ArbitrageManager();
+    const bn = await arbitrageManager.getCurrentPrice('binance', 'BTC/USDT');
+    const gt = await arbitrageManager.getCurrentPrice('gate', 'BTC/USDT');
 
     // checkPrices();
     // Call the function (example):
