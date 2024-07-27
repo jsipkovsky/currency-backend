@@ -22,7 +22,7 @@ router.get('/test', async (_: Request, res: Response) => {
     // const gt = await arbitrageManager.getCurrentPrice('gate', 'BTC/USDT');
     res.send(`Binance: ${bn}, Gate: `);
   } catch (error) {
-    res.send(500).send(error);
+    res.send(error);
   }
 });
 
