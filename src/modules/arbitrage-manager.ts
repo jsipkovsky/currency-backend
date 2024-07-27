@@ -9,8 +9,8 @@ export class ArbitrageManager {
     constructor() {
         this.exchanges = {
             gate: new ccxt.gate({
-                apiKey: process.env.PHEMEX_API_KEY,
-                secret: process.env.PHEMEX_SECRET,
+                apiKey: process.env.GATE_API_KEY,
+                secret: process.env.GATE_SECRET,
                 enableRateLimit: true
             }),
             // Add other exchanges here
