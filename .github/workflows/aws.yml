@@ -1,0 +1,39 @@
+name: Node.js CI/CD to aws EC2
+on:
+  push:
+    branches:
+      - master
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+    
+    - name: Checkout Repository
+      uses: actions/checkout@v2
+      
+    - name: Set up SSH Key and Known Hosts
+      run: |
+        mkdir -p ~/.ssh/
+        echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+        chmod 600 ~/.ssh/id_rsa
+        ssh-keyscan -H ${{ secrets.HOST }} >> ~/.ssh/known_hosts
+    
+    - name: Deploy to EC2
+      env:
+        HOST: ${{ secrets.HOST }}
+        USERNAME: ${{ secrets.USERNAME }}
+        TOKEN: ${{ secrets.TOKEN }}
+      run: |
+        ssh -o "StrictHostKeyChecking=no" $USERNAME@$HOST << 'ENDSSH'
+          export TOKEN="${{ secrets.TOKEN }}"
+          cd yallah_ig_be
+          git pull https://$TOKEN@github.com/jsipkovsky/currency-backend.git
+          source ~/.nvm/nvm.sh
+          nvm use $(cat .nvmrc)
+          nohup npm ci
+          nohup npm run build
+          pm2 kill
+          pm2 install pm2-logrotate
+          pm2 set pm2-logrotate:max_size 10M
+          pm2 start ecosystem.config.js
+        ENDSSH
