@@ -17,7 +17,10 @@ export class ArbitrageManager {
             binance: new ccxt.binance({
                 apiKey: process.env.BINANCE_API_KEY,
                 secret: process.env.BINANCE_SECRET,
-                enableRateLimit: true
+                // verbose: true,
+                'options': {
+                    'defaultType': 'margin'
+                }
             }),
             // etc.
         };
@@ -43,8 +46,8 @@ export class ArbitrageManager {
     public async executeArbitrage() {
         try {
             // Monitor Prices
-            const exchangeAPrice = await this.getCurrentPrice('binance', 'BTC/USDT');
-            const exchangeBPrice = await this.getCurrentPrice('phemex', 'BTC/USDT');
+            const exchangeAPrice = Number(await this.getCurrentPrice('binance', 'BTC/USDT'));
+            const exchangeBPrice = Number(await this.getCurrentPrice('phemex', 'BTC/USDT'));
 
             console.log(`ExchangeA BTC Price: ${exchangeAPrice}`);
             console.log(`ExchangeB BTC Price: ${exchangeBPrice}`);
@@ -69,9 +72,14 @@ export class ArbitrageManager {
         }
     }
 
-    async getCurrentPrice(exchange: string, symbol: string): Promise<number> {
+    async getCurrentPrice(exchange: string, symbol: string): Promise<string> {
+        try {
         const ticker = await this.getExchange(exchange).fetchTicker(symbol);
-        return Number(ticker.ask);
+        return ticker.ask?.toString() ?? '0';
+        } catch (error: any) {
+            console.error(`Error fetching price for ${symbol} on ${exchange}:`, error);
+            return error.message ?? '0';
+        }
     }
 
     private async executeShortSell(exchange: ccxt.Exchange, symbol: string, amount: number, price: number) {
