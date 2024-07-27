@@ -15,6 +15,7 @@ app.listen(port, async () => {
     console.log('database initialized.🗄️');
     const ip = await getPublicIP();
     console.log('Public IP:', ip);
+
     // checkPrices();
     // Call the function (example):
     // getAzbitAccount();
