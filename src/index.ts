@@ -17,8 +17,8 @@ app.listen(port, async () => {
     const ip = await getPublicIP();
     console.log('Public IP:', ip);
 
-    const arbitrageManager = new ArbitrageManager();
-    const bn = await arbitrageManager.getCurrentPrice('binance', 'BTC/USDT');
+    // const arbitrageManager = new ArbitrageManager();
+    // const bn = await arbitrageManager.getCurrentPrice('binance', 'BTC/USDT');
     // checkPrices();
     // Call the function (example):
     // getAzbitAccount();
