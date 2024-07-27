@@ -19,10 +19,10 @@ router.get('/test', async (_: Request, res: Response) => {
   try {
     const arbitrageManager = new ArbitrageManager();
     const bn = await arbitrageManager.getCurrentPrice('binance', 'BTC/USDT');
-    const gt = await arbitrageManager.getCurrentPrice('gate', 'BTC/USDT');
-    res.send(`Binance: ${bn}, Gate: ${gt}`);
+    // const gt = await arbitrageManager.getCurrentPrice('gate', 'BTC/USDT');
+    res.send(`Binance: ${bn}, Gate: `);
   } catch (error) {
-    res.status(500).send('Failed to fetch currency rates');
+    res.send(500).send(error);
   }
 });
 
