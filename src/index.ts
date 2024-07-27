@@ -3,6 +3,7 @@ import app from './app';
 import schedule from 'node-schedule';
 import { checkPrices } from './modules/crypto-utils';
 import { AppDataSource } from './modules/database-access';
+import { getAzbitAccount } from './modules/azbit';
 
 const port = process.env.PORT || 8080;
 
@@ -13,6 +14,8 @@ app.listen(port, async () => {
     console.log('database initialized.🗄️');
     // checkPrices();
     // Call the function (example):
+    // getAzbitAccount();
+    // testBB();
     // executeTrade('BTC/USDT', 0.01, 1000).then(result => {
     //   console.log('Trade execution result:', result);
     // }).catch(err => {
