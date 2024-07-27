@@ -19,8 +19,8 @@ router.get('/test', async (_: Request, res: Response) => {
   try {
     const arbitrageManager = new ArbitrageManager();
     const bn = await arbitrageManager.getCurrentPrice('binance', 'BTC/USDT');
-    // const gt = await arbitrageManager.getCurrentPrice('gate', 'BTC/USDT');
-    res.send(`Binance: ${bn}, Gate: `);
+    const gt = await arbitrageManager.getCurrentPrice('gate', 'BTC/USDT');
+    res.send(`Binance: ${bn}, Gate: ${gt}`);
   } catch (error) {
     res.send(error);
   }
