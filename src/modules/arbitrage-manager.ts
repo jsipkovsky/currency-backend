@@ -54,7 +54,8 @@ export class ArbitrageManager {
 
             if (exchangeAPrice > exchangeBPrice) {
                 // Short Sell on Exchange A
-                const res = await this.executeShortSell(this.getExchange('binance'), 'BTC/USDT', 0.001, exchangeAPrice);
+                const exchangeA = this.getExchange('binance');
+                const res = await this.executeShortSell(exchangeA as ccxt.binance, 'BTC/USDT', 0.0005, exchangeAPrice);
                 console.log(res);
 
                 // Buy on Exchange B
@@ -83,7 +84,12 @@ export class ArbitrageManager {
         }
     }
 
-    private async executeShortSell(exchange: ccxt.Exchange, symbol: string, amount: number, price: number) {
+    private async executeShortSell(exchange: ccxt.binance, symbol: string, amount: number, price: number) {
+        const borrowResp = await exchange.sapiPostMarginLoan({
+            asset: 'BTC',
+            amount: amount.toString()
+        });
+        console.log('Borrow response:', borrowResp);
         console.log(`Short selling ${amount} ${symbol} at ${price} on ${exchange.name}`);
         // Example: Short sell using createOrder
         await exchange.createOrder(symbol, 'limit', 'sell', amount, price);
