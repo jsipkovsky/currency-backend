@@ -44,16 +44,21 @@ export class ArbitrageManager {
         return this.exchanges[name];
     }
 
-    public async executeArbitrage() {
+    public async executeArbitrage(symbol: string) {
         try {
             // Monitor Prices
-            const exchangeAPrice = Number(await this.getCurrentPrice('binance', 'BTC/USDT'));
-            const exchangeBPrice = Math.random(); // Number(await this.getCurrentPrice('gate', 'BTC/USDT'));
+            const exchangeAPrice = Number(await this.getCurrentPrice('binance', symbol));
+            const exchangeBPrice = Number(await this.getCurrentPrice('gate', symbol));
 
             console.log(`ExchangeA BTC Price: ${exchangeAPrice}`);
             console.log(`ExchangeB BTC Price: ${exchangeBPrice}`);
 
-            if (exchangeAPrice != exchangeBPrice) {
+            const absolutePriceDifference = Math.abs(exchangeAPrice - exchangeBPrice);
+            const averagePrice = (exchangeAPrice + exchangeBPrice) / 2;
+            const priceDifferencePercent = (absolutePriceDifference / averagePrice) * 100;
+            console.log(`priceDifferencePercent: ${priceDifferencePercent}`);
+
+            if (priceDifferencePercent > 3) {
                 // Short Sell on Exchange A
                 const exchangeA = this.getExchange('binance');
                 const res = await this.executeShortSell(exchangeA as ccxt.binance, 'ETH/USDT', 0.005, exchangeAPrice);

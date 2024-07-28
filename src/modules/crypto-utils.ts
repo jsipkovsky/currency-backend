@@ -3,6 +3,7 @@ import path from 'path';
 import { CoinCalculation } from "../typeorm/entities/CoinCalculation";
 import { AppDataSource } from "./database-access";
 import { sendEmail } from "./email-utils";
+import { ArbitrageManager } from "./arbitrage-manager";
 const csvParse = require('csv-parser');
 const fs = require('fs');
 
@@ -211,7 +212,9 @@ export async function checkPrices() {
 
                   if(ticker1.exchange == 'binance' && ticker2.exchange == 'gate' ||
                     ticker1.exchange == 'gate' && ticker2.exchange == 'binance') {
-                    sendEmail('jansipkovsky2@gmail.com', 'crt test', price1 + ' ' + price2);
+                    sendEmail('jansipkovsky2@gmail.com', 'crt test', price1 + ' ' + price2 + ' ' + pair);
+                    // const arbitrageManager = new ArbitrageManager();
+                    // const bn = await arbitrageManager.executeArbitrage(pair);
                   }
                 }
               }
