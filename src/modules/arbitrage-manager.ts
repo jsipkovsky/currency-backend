@@ -52,7 +52,7 @@ export class ArbitrageManager {
             console.log(`ExchangeA BTC Price: ${exchangeAPrice}`);
             console.log(`ExchangeB BTC Price: ${exchangeBPrice}`);
 
-            if (exchangeAPrice > exchangeBPrice) {
+            if (exchangeAPrice != exchangeBPrice) {
                 // Short Sell on Exchange A
                 const exchangeA = this.getExchange('binance');
                 const res = await this.executeShortSell(exchangeA as ccxt.binance, 'BTC/USDT', 0.0005, exchangeAPrice);
