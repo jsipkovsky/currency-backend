@@ -47,24 +47,25 @@ export class ArbitrageManager {
         try {
             // Monitor Prices
             const exchangeAPrice = Number(await this.getCurrentPrice('binance', 'BTC/USDT'));
-            const exchangeBPrice = Number(await this.getCurrentPrice('phemex', 'BTC/USDT'));
+            const exchangeBPrice = Number(await this.getCurrentPrice('gate', 'BTC/USDT'));
 
             console.log(`ExchangeA BTC Price: ${exchangeAPrice}`);
             console.log(`ExchangeB BTC Price: ${exchangeBPrice}`);
 
             if (exchangeAPrice > exchangeBPrice) {
                 // Short Sell on Exchange A
-                await this.executeShortSell(this.getExchange('binance'), 'BTC/USDT', 1, exchangeAPrice);
+                const res = await this.executeShortSell(this.getExchange('binance'), 'BTC/USDT', 0.001, exchangeAPrice);
+                console.log(res);
 
                 // Buy on Exchange B
-                await this.executeBuy(this.getExchange('binance'), 'BTC/USDT', 1, exchangeBPrice);
+                // await this.executeBuy(this.getExchange('binance'), 'BTC/USDT', 1, exchangeBPrice);
 
-                // Transfer and Repay (This assumes direct transfer and repay methods are synchronous for simplicity)
-                await this.transferAndRepay('BTC', 1);
+                // // Transfer and Repay (This assumes direct transfer and repay methods are synchronous for simplicity)
+                // await this.transferAndRepay('BTC', 1);
 
-                // Calculate Profit
-                const profit = this.calculateProfit(exchangeAPrice, exchangeBPrice, 100);
-                console.log(`Profit: $${profit}`);
+                // // Calculate Profit
+                // const profit = this.calculateProfit(exchangeAPrice, exchangeBPrice, 100);
+                // console.log(`Profit: $${profit}`);
             }
 
         } catch (error) {
