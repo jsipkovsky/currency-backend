@@ -17,6 +17,7 @@ export class ArbitrageManager {
             binance: new ccxt.binance({
                 apiKey: process.env.BINANCE_API_KEY,
                 secret: process.env.BINANCE_SECRET,
+                enableRateLimit: true,
                 // verbose: true,
                 'options': {
                     'defaultType': 'margin'
@@ -47,7 +48,7 @@ export class ArbitrageManager {
         try {
             // Monitor Prices
             const exchangeAPrice = Number(await this.getCurrentPrice('binance', 'BTC/USDT'));
-            const exchangeBPrice = Number(await this.getCurrentPrice('gate', 'BTC/USDT'));
+            const exchangeBPrice = Math.random(); // Number(await this.getCurrentPrice('gate', 'BTC/USDT'));
 
             console.log(`ExchangeA BTC Price: ${exchangeAPrice}`);
             console.log(`ExchangeB BTC Price: ${exchangeBPrice}`);
@@ -55,7 +56,7 @@ export class ArbitrageManager {
             if (exchangeAPrice != exchangeBPrice) {
                 // Short Sell on Exchange A
                 const exchangeA = this.getExchange('binance');
-                const res = await this.executeShortSell(exchangeA as ccxt.binance, 'BTC/USDT', 0.0005, exchangeAPrice);
+                const res = await this.executeShortSell(exchangeA as ccxt.binance, 'ETH/USDT', 0.005, exchangeAPrice);
                 console.log(res);
                 return res;
 
@@ -86,16 +87,43 @@ export class ArbitrageManager {
     }
 
     private async executeShortSell(exchange: ccxt.binance, symbol: string, amount: number, price: number) {
-        // const borrowResp = await exchange.sapiPostMarginLoan({
+        // const borrowsResp = await exchange.sapiPostMarginLoan({
         //     asset: 'BTC',
-        //     amount: amount.toString()
+        //     amount: 0.0001
         // });
-        const borrowResp = await exchange.fetchBalance();
-        console.log('Borrow response:', borrowResp);
-        return borrowResp;
+        // const borrowRersp = await exchange.sapiPostMarginRepay({
+        //     asset: 'BTC',
+        //     amount: 0.00100003
+        // });
+        const balance = await exchange.fetchBalance();
+        // const deposit_address = await this.getExchange('gate').fetchDepositAddress('ETH');
+
+
+        // const withdrawal_response = await exchange.withdraw(
+        //     'ETH',
+        //     0.1,
+        //     deposit_address.address,
+        // );
+        // const balasnce = await exchange.fetchPosition('18898563575');
+        const usdtBalance = balance.info['USDT'] || 0;
+        const busdBalance = balance.info['BUSD'] || 0;
+        // const bal = await exchange.fetchBalance(); 
+        // console.log('Borrow response:', exchange);
+        // return borrowResp;
         // console.log(`Short selling ${amount} ${symbol} at ${price} on ${exchange.name}`);
         // // Example: Short sell using createOrder
-        // await exchange.createOrder(symbol, 'limit', 'sell', amount, price);
+        // const s = await exchange.createOrder(symbol, 'MARKET', 'SELL', 0.1);
+        // const s = await exchange.sapiPostMarginOrder({
+        //     symbol: symbol,
+        //     side: 'SELL',
+        //     type: 'MARKET',
+        //     quantity: amount,
+        //     // price: price,
+        //     // stopPrice: price * 1.01,
+        //     // timeInForce: 'GTC'
+        // }
+        // )
+        // console.log(s);
     }
 
     private async executeBuy(exchange: ccxt.Exchange, symbol: string, amount: number, price: number) {

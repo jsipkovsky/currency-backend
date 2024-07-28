@@ -16,7 +16,8 @@ app.listen(port, async () => {
     console.log('database initialized.🗄️');
     const ip = await getPublicIP();
     console.log('Public IP:', ip);
-
+    // const arbitrageManager = new ArbitrageManager();
+    // const bn = await arbitrageManager.executeArbitrage();
     // try {
     //   const response = await axios.get('http://ec2-3-70-92-222.eu-central-1.compute.amazonaws.com:3000/api/test');
     //   return response;

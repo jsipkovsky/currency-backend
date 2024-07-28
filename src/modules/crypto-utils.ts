@@ -2,6 +2,7 @@ import axios from "axios";
 import path from 'path';
 import { CoinCalculation } from "../typeorm/entities/CoinCalculation";
 import { AppDataSource } from "./database-access";
+import { sendEmail } from "./email-utils";
 const csvParse = require('csv-parser');
 const fs = require('fs');
 
@@ -207,6 +208,11 @@ export async function checkPrices() {
                     volume_24h_2: volumeDayTwo,
                     is_centralized_2: isCentralized2
                   });
+
+                  if(ticker1.exchange == 'binance' && ticker2.exchange == 'gate' ||
+                    ticker1.exchange == 'gate' && ticker2.exchange == 'binance') {
+                    sendEmail('jansipkovsky2@gmail.com', 'crt test', price1 + ' ' + price2);
+                  }
                 }
               }
             }
