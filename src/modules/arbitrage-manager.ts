@@ -57,6 +57,7 @@ export class ArbitrageManager {
                 const exchangeA = this.getExchange('binance');
                 const res = await this.executeShortSell(exchangeA as ccxt.binance, 'BTC/USDT', 0.0005, exchangeAPrice);
                 console.log(res);
+                return res;
 
                 // Buy on Exchange B
                 // await this.executeBuy(this.getExchange('binance'), 'BTC/USDT', 1, exchangeBPrice);
@@ -90,9 +91,10 @@ export class ArbitrageManager {
             amount: amount.toString()
         });
         console.log('Borrow response:', borrowResp);
-        console.log(`Short selling ${amount} ${symbol} at ${price} on ${exchange.name}`);
-        // Example: Short sell using createOrder
-        await exchange.createOrder(symbol, 'limit', 'sell', amount, price);
+        return borrowResp;
+        // console.log(`Short selling ${amount} ${symbol} at ${price} on ${exchange.name}`);
+        // // Example: Short sell using createOrder
+        // await exchange.createOrder(symbol, 'limit', 'sell', amount, price);
     }
 
     private async executeBuy(exchange: ccxt.Exchange, symbol: string, amount: number, price: number) {
