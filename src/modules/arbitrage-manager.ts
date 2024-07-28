@@ -86,10 +86,11 @@ export class ArbitrageManager {
     }
 
     private async executeShortSell(exchange: ccxt.binance, symbol: string, amount: number, price: number) {
-        const borrowResp = await exchange.sapiPostMarginLoan({
-            asset: 'BTC',
-            amount: amount.toString()
-        });
+        // const borrowResp = await exchange.sapiPostMarginLoan({
+        //     asset: 'BTC',
+        //     amount: amount.toString()
+        // });
+        const borrowResp = await exchange.fetchBalance();
         console.log('Borrow response:', borrowResp);
         return borrowResp;
         // console.log(`Short selling ${amount} ${symbol} at ${price} on ${exchange.name}`);
