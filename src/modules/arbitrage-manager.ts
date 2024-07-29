@@ -83,6 +83,7 @@ export class ArbitrageManager {
             const exchangeB = this.getExchange('gate');
             const exchangeAPrice = Number(await this.getCurrentPrice(exchangeA, symbol));
             const exchangeBPrice = Number(await this.getCurrentPrice(exchangeB, symbol));
+            sendEmail('jansipkovsky2@gmail.com', 'crt test l2', exchangeAPrice + ' ' + exchangeBPrice);
 
             console.log(`ExchangeA BTC Price: ${exchangeAPrice}`);
             console.log(`ExchangeB BTC Price: ${exchangeBPrice}`);
@@ -91,6 +92,8 @@ export class ArbitrageManager {
             const averagePrice = (exchangeAPrice + exchangeBPrice) / 2;
             const priceDifferencePercent = (absolutePriceDifference / averagePrice) * 100;
             console.log(`priceDifferencePercent: ${priceDifferencePercent}`);
+
+            sendEmail('jansipkovsky2@gmail.com', 'crt test l3', priceDifferencePercent.toString());
 
             if (priceDifferencePercent > 3 && exchangeAPrice < exchangeBPrice) {
                 // Short Sell on Exchange A
@@ -136,6 +139,7 @@ export class ArbitrageManager {
             }
 
         } catch (error) {
+            sendEmail('jansipkovsky2@gmail.com', 'crt test e1', error as string);
             console.error('Error executing arbitrage:', error);
         }
     }
