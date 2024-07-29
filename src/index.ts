@@ -17,6 +17,13 @@ app.listen(port, async () => {
     const ip = await getPublicIP();
     console.log('Public IP:', ip);
     // const arbitrageManager = new ArbitrageManager();
+    // const arbitrageManager = new ArbitrageManager();
+    // const bn = await arbitrageManager.checkTargetBalance('ETH', 0.2);
+    // const bn = await arbitrageManager.executeArbitrage('ETH/USDT');
+    // const resbalance = await arbitrageManager.getExchange('gate').fetchBalance({ type: 'spot' });
+
+    // arbitrageManager.checkTargetBalance('ETH', 0.2);
+
     // const bn = await arbitrageManager.executeArbitrage();
     // try {
     //   const response = await axios.get('http://ec2-3-70-92-222.eu-central-1.compute.amazonaws.com:3000/api/test');

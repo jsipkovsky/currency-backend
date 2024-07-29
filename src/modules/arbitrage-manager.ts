@@ -1,6 +1,18 @@
+import axios from 'axios';
 import * as ccxt from 'ccxt';
 import * as dotenv from 'dotenv';
+import { sendEmail } from './email-utils';
 dotenv.config();
+
+async function getServerTime() {
+    try {
+        const res = await axios.get(`https://api.binance.com'/api/v3/time`);
+        return res.data.serverTime;
+    } catch (error) {
+        console.error('Error fetching server time:', error);
+        throw error;
+    }
+}
 
 export class ArbitrageManager {
     // private exchangeA: ccxt.Exchange;
@@ -44,11 +56,33 @@ export class ArbitrageManager {
         return this.exchanges[name];
     }
 
+    async checkTargetBalance(coin: string, amount: number) {
+        const startTime = Date.now(); // Record the start time
+        const timeoutDuration = 10 * 60 * 1000; // 10 minutes in milliseconds
+        let balance;
+        do {
+            const currentTime = Date.now();
+
+            // Check if the elapsed time exceeds the timeout duration
+            if (currentTime - startTime > timeoutDuration) {
+                return null; // Return null if the timeout is reached
+            }
+            const resbalance = await this.getExchange('gate').fetchBalance({ type: 'spot' });
+            balance = resbalance[coin].free || 0;
+            await new Promise(resolve => setTimeout(resolve, 10000)); // Wait 10 seconds before re-checking
+        } while (balance < amount);
+
+        return balance; // Return the final balance
+    }
+    
+
     public async executeArbitrage(symbol: string) {
         try {
             // Monitor Prices
-            const exchangeAPrice = Number(await this.getCurrentPrice('binance', symbol));
-            const exchangeBPrice = Number(await this.getCurrentPrice('gate', symbol));
+            const exchangeA = this.getExchange('binance');
+            const exchangeB = this.getExchange('gate');
+            const exchangeAPrice = Number(await this.getCurrentPrice(exchangeA, symbol));
+            const exchangeBPrice = Number(await this.getCurrentPrice(exchangeB, symbol));
 
             console.log(`ExchangeA BTC Price: ${exchangeAPrice}`);
             console.log(`ExchangeB BTC Price: ${exchangeBPrice}`);
@@ -58,12 +92,37 @@ export class ArbitrageManager {
             const priceDifferencePercent = (absolutePriceDifference / averagePrice) * 100;
             console.log(`priceDifferencePercent: ${priceDifferencePercent}`);
 
-            if (priceDifferencePercent > 3) {
+            if (priceDifferencePercent > 3 && exchangeAPrice < exchangeBPrice) {
                 // Short Sell on Exchange A
                 const exchangeA = this.getExchange('binance');
-                const res = await this.executeShortSell(exchangeA as ccxt.binance, 'ETH/USDT', 0.005, exchangeAPrice);
+                const exchangeB = this.getExchange('gate');
+                const amount = Number((1000 / exchangeAPrice).toFixed(4));
+                const res = await this.executeBuy(exchangeA as ccxt.binance, 'ETH/USDT', amount, exchangeAPrice);
                 console.log(res);
-                return res;
+
+                const deposit_address = await exchangeB.fetchDepositAddress('ETH');
+
+                const coin = symbol.split('/')[0];
+                const withdrawal_response = await exchangeA.withdraw(
+                    coin,
+                    amount,
+                    deposit_address.address,
+                );
+                console.log(withdrawal_response);
+
+                console.log(`Checking ${amount} ${symbol}`);
+
+                const transfed = await this.checkTargetBalance(coin, amount); 
+                console.log(transfed);
+
+                const resSell = await this.executeSell(exchangeB as ccxt.gate, symbol, amount, exchangeBPrice);
+                console.log(resSell);
+
+                sendEmail('jansipkovsky2@gmail.com', 'crt test', JSON.stringify(resSell.info) + JSON.stringify(res.info));
+                // console.log(res);
+                // return res;
+
+                // const s = await exchange.createOrder(symbol, 'MARKET', 'SELL', 0.1);
 
                 // Buy on Exchange B
                 // await this.executeBuy(this.getExchange('binance'), 'BTC/USDT', 1, exchangeBPrice);
@@ -81,9 +140,9 @@ export class ArbitrageManager {
         }
     }
 
-    async getCurrentPrice(exchange: string, symbol: string): Promise<string> {
+    async getCurrentPrice(exchange: ccxt.Exchange, symbol: string): Promise<string> {
         try {
-        const ticker = await this.getExchange(exchange).fetchTicker(symbol);
+        const ticker = await exchange.fetchTicker(symbol);
         return ticker.ask?.toString() ?? '0';
         } catch (error: any) {
             console.error(`Error fetching price for ${symbol} on ${exchange}:`, error);
@@ -131,10 +190,20 @@ export class ArbitrageManager {
         // console.log(s);
     }
 
-    private async executeBuy(exchange: ccxt.Exchange, symbol: string, amount: number, price: number) {
+    private async executeBuy(exchange: ccxt.binance, symbol: string, amount: number, price: number) {
         console.log(`Buying ${amount} ${symbol} at ${price} on ${exchange.name}`);
         // Example: Buy using createOrder
-        await exchange.createOrder(symbol, 'limit', 'buy', amount, price);
+        const order = await exchange.createOrder(symbol, 'MARKET', 'BUY', amount);
+        console.log(order);
+        return order;
+    }
+
+    private async executeSell(exchange: ccxt.gate, symbol: string, amount: number, price: number) {
+        console.log(`Selling ${amount} ${symbol} at ${price} on ${exchange.name}`);
+        // Example: Buy using createOrder
+        const order = await exchange.createOrder(symbol, 'market', 'sell', amount, price, { type: 'spot' });
+        console.log(order);
+        return order;
     }
 
     private async transferAndRepay(currency: string, amount: number) {

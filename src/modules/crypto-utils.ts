@@ -213,8 +213,8 @@ export async function checkPrices() {
                   if(ticker1.exchange == 'binance' && ticker2.exchange == 'gate' ||
                     ticker1.exchange == 'gate' && ticker2.exchange == 'binance') {
                     sendEmail('jansipkovsky2@gmail.com', 'crt test', price1 + ' ' + price2 + ' ' + pair);
-                    // const arbitrageManager = new ArbitrageManager();
-                    // const bn = await arbitrageManager.executeArbitrage(pair);
+                    const arbitrageManager = new ArbitrageManager();
+                    const bn = await arbitrageManager.executeArbitrage(pair);
                   }
                 }
               }
