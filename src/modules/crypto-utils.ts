@@ -81,17 +81,17 @@ export async function checkPrices() {
     try {
       const exchangesResponse = await axios.get('https://pro-api.coingecko.com/api/v3/exchanges/list', { headers });
       const exchanges = exchangesResponse.data;
-      // const uniqueRandomExchanges = getRandomUniqueElements(exchanges, 10);
+      const uniqueRandomExchanges = getRandomUniqueElements(exchanges, 25);
 
         // Add selected exchanges to exchangeList ensuring there are no duplicates
-        const exchangeList = ['kraken', 'gdax', 'huobi', 'binance', 'bitfinex', 'kucoin', 'azbit',
+      const exchangeListBase = ['kraken', 'gdax', 'huobi', 'binance', 'bitfinex', 'kucoin', 'azbit',
           'gemini', 'crypto_com', 'okex', 'bitstamp', 'poloniex', 'gate', 'poloniex', 
           'phemex', 'whitebit', 'bitmax', 'bingx', 'bithumb', 'lbank']
           // 'uniwswap', 'sushiswap', 'balancer', 'curve-base', 'jupiter', 'quickswap']
-        // const uniqueExchangeList = new Set([...exchangeListBase, ...uniqueRandomExchanges]);
+      const uniqueExchangeList = new Set([...exchangeListBase, ...uniqueRandomExchanges]);
 
         // Convert the Set back to an array
-        // const exchangeList = Array.from(uniqueExchangeList);
+      const exchangeList = Array.from(uniqueExchangeList);
 
 
       const allTickersMap: { [key: string]: any[] } = {};
