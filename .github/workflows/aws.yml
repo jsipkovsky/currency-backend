@@ -30,8 +30,9 @@ jobs:
           cd currency-backend
           echo "Writing secrets to .env file"
           (
-            echo "${{ secrets.ENV_VARS }}"
-          ) > .env    
+            echo "$ENV_VARS"
+          ) > .env
+    
           git pull https://$TOKEN@github.com/jsipkovsky/currency-backend.git
           source ~/.nvm/nvm.sh
           nvm use $(cat .nvmrc)
