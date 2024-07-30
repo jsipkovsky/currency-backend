@@ -194,6 +194,16 @@ export class ArbitrageManager {
         }
     }
 
+    async fetchBidsAsks(exchange: ccxt.Exchange): Promise<any> {
+        try {
+        const bidsAsks = await exchange.fetchBidsAsks();
+        return bidsAsks;
+        } catch (error: any) {
+            console.error(`Error fetching price on ${exchange}:`, error);
+            return error.message ?? '0';
+        }
+    }
+
     async getCurrentPrice(exchange: ccxt.Exchange, symbol: string): Promise<string> {
         try {
         const ticker = await exchange.fetchTicker(symbol);
