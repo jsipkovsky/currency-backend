@@ -19,7 +19,7 @@ const port = process.env.PORT || 8080;
 
 app.listen(port, async () => {
   console.log(`currency-backend application is running on port ${port}.✅`);
-  const host = process.env.PORT;
+  const host = process.env.HUP;
   console.log('user:', host);
   AppDataSource.initialize().then(async () => {
 
