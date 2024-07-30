@@ -32,27 +32,27 @@ app.listen(port, async () => {
 // https://docs.aws.amazon.com/sdk-for-javascript/v3/developer-guide/getting-started.html
 
 
-const secret_name = "testSecret";
+// const secret_name = "testSecret";
 
-const client = new SecretsManagerClient({
-  region: "eu-central-1",
-});
+// const client = new SecretsManagerClient({
+//   region: "eu-central-1",
+// });
 
-let response;
+// let response;
 
-try {
-  response = await client.send(
-    new GetSecretValueCommand({
-      SecretId: secret_name,
-      VersionStage: "AWSCURRENT", // VersionStage defaults to AWSCURRENT if unspecified
-    })
-  );
-  console.log(response);
-} catch (error) {
-  // For a list of exceptions thrown, see
-  // https://docs.aws.amazon.com/secretsmanager/latest/apireference/API_GetSecretValue.html
-  console.error(error);
-}
+// try {
+//   response = await client.send(
+//     new GetSecretValueCommand({
+//       SecretId: secret_name,
+//       VersionStage: "AWSCURRENT", // VersionStage defaults to AWSCURRENT if unspecified
+//     })
+//   );
+//   console.log(response);
+// } catch (error) {
+//   // For a list of exceptions thrown, see
+//   // https://docs.aws.amazon.com/secretsmanager/latest/apireference/API_GetSecretValue.html
+//   console.error(error);
+// }
 
 
     // const arbitrageManager = new ArbitrageManager();
