@@ -32,13 +32,13 @@ app.listen(port, async () => {
     // arbitrageManager.checkTargetBalance('ETH', 0.2);
 
     // const bn = await arbitrageManager.executeArbitrage();
-    // try {
-    //   const response = await axios.get('http://ec2-3-70-92-222.eu-central-1.compute.amazonaws.com:3000/api/test');
-    //   return response;
-    // } catch (error) {
-    //   console.error('Error fetching public IP:', error);
-    //   throw error;
-    // }
+    try {
+      const response = await axios.get('http://ec2-3-70-92-222.eu-central-1.compute.amazonaws.com:3000/api/bidasks');
+      return response;
+    } catch (error) {
+      console.error('Error fetching public IP:', error);
+      throw error;
+    }
 
     // const arbitrageManager = new ArbitrageManager();
     // const bn = await arbitrageManager.executeArbitrage();
