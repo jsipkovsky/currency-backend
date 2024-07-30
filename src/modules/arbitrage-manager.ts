@@ -196,7 +196,7 @@ export class ArbitrageManager {
 
     async fetchBidsAsks(exchange: ccxt.Exchange): Promise<any> {
         try {
-        const bidsAsks = await exchange.fetchTickers ([ 'ETH/BTC', 'BTC/USDT' ]);
+        const bidsAsks = await exchange.fetchTickers(undefined, { limit: 100 });
         return bidsAsks;
         } catch (error: any) {
             console.error(`Error fetching price on ${exchange}:`, error);
