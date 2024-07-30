@@ -134,15 +134,15 @@ export class ArbitrageManager {
             console.log(`ExchangeA BTC Price: ${exchangeAPrice}`);
             console.log(`ExchangeB BTC Price: ${exchangeBPrice}`);
 
-            if(exchange1 == 'binance' && exchange2 == 'gate' ||
-                exchange2 == 'gate' && exchange1 == 'binance') {
-
+            
             const absolutePriceDifference = Math.abs(exchangeAPrice - exchangeBPrice);
             const averagePrice = (exchangeAPrice + exchangeBPrice) / 2;
             const priceDifferencePercent = (absolutePriceDifference / averagePrice) * 100;
             console.log(`priceDifferencePercent: ${priceDifferencePercent}`);
-
             sendEmail('jansipkovsky2@gmail.com', 'crt test l3', priceDifferencePercent.toString());
+
+            if(exchange1 == 'binance' && exchange2 == 'gate' ||
+                exchange2 == 'gate' && exchange1 == 'binance') {
 
             if (priceDifferencePercent > 3 && exchangeAPrice < exchangeBPrice) {
                 // Short Sell on Exchange A
