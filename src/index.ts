@@ -24,7 +24,7 @@ app.listen(port, async () => {
     console.log('database initialized.🗄️');
     const ip = await getPublicIP();
     console.log('Public IP:', ip);
-    const host = process.env.USERNAME;
+    const host = process.env.TEST;
     console.log('user:', host);
 
     // Use this code snippet in your app.
