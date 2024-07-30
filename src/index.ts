@@ -7,6 +7,8 @@ import { getAzbitAccount } from './modules/azbit';
 import { getPublicIP } from './modules/common';
 import { ArbitrageManager } from './modules/arbitrage-manager';
 const logger = require('../src/logger');
+import * as dotenv from 'dotenv';
+dotenv.config();
 
 const port = process.env.PORT || 8080;
 
@@ -17,6 +19,8 @@ app.listen(port, async () => {
     console.log('database initialized.🗄️');
     const ip = await getPublicIP();
     console.log('Public IP:', ip);
+    const host = process.env.HOST;
+    console.log('host:', host);
     // const arbitrageManager = new ArbitrageManager();
     // const bn = await arbitrageManager.checkTargetBalance('ETH', 0.2);
     // const bn = await arbitrageManager.executeArbitrage('ETH/USDT');
