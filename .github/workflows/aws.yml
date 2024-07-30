@@ -25,24 +25,15 @@ jobs:
         TOKEN: ${{ secrets.TOKEN }}
         ENV_VARS: ${{ secrets.ENV_VARS }}
       run: |
-        ssh -tt -o "StrictHostKeyChecking=no" $USERNAME@$HOST << 'ENDSSH'
+        ssh -o "StrictHostKeyChecking=no" $USERNAME@$HOST << 'ENDSSH'
           export TOKEN="${{ secrets.TOKEN }}"
           cd currency-backend
-          # Write the multi-line secret to `.env` file
+          export ENV_VARS="${{ secrets.ENV_VARS }}"
           echo "${ENV_VARS}" > .env
-          
-          # Verify the contents of `.env`
+
           echo "Contents of .env file:"
           cat .env
-          
-          # Load `.env` file in the environment
-          set -o allexport
-          source .env
-          set +o allexport
 
-          # Verify environment variables are loaded
-          echo "Loaded environment variables:"
-          printenv | grep -i 'USERNAME\|TOKEN\|HOST'
           git pull https://$TOKEN@github.com/jsipkovsky/currency-backend.git
           source ~/.nvm/nvm.sh
           nvm use $(cat .nvmrc)
