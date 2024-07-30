@@ -196,6 +196,7 @@ export class ArbitrageManager {
 
     async fetchBidsAsks(exchange: ccxt.Exchange): Promise<any> {
         try {
+            const markets = await exchange.loadMarkets();
         const bidsAsks = await exchange.fetchTickers(undefined, { limit: 100 });
         return bidsAsks;
         } catch (error: any) {
