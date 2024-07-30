@@ -202,10 +202,10 @@ export class ArbitrageManager {
             } else {
                 console.log (exchange.id, 'does not have fetchTickers')
             }
-            console.log('Markets:', markets);
+            console.log('Markets:', JSON.stringify(markets));
 
-        const bidsAsks = await exchange.fetchTickers(undefined, { });
-        return bidsAsks;
+            //const bidsAsks = await exchange.fetchTickers(undefined, { });
+            return null;
         } catch (error: any) {
             console.error(`Error fetching price on ${exchange}:`, error);
             return error.message ?? '0';
