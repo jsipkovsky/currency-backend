@@ -19,8 +19,8 @@ app.listen(port, async () => {
     console.log('database initialized.🗄️');
     const ip = await getPublicIP();
     console.log('Public IP:', ip);
-    const host = process.env.HOST;
-    console.log('host:', host);
+    const host = process.env.USERNAME;
+    console.log('user:', host);
     // const arbitrageManager = new ArbitrageManager();
     // const bn = await arbitrageManager.checkTargetBalance('ETH', 0.2);
     // const bn = await arbitrageManager.executeArbitrage('ETH/USDT');
