@@ -198,7 +198,7 @@ export class ArbitrageManager {
         try {
             const markets = await exchange.loadMarkets();
             if (exchange.has['fetchTickers']) {
-                console.log (await (exchange.fetchTickers ())) // all tickers indexed by their symbols
+                // console.log (await (exchange.fetchTickers ())) // all tickers indexed by their symbols
             } else {
                 console.log (exchange.id, 'does not have fetchTickers')
             }
