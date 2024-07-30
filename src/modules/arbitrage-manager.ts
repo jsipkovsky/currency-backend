@@ -35,6 +35,52 @@ export class ArbitrageManager {
                     'defaultType': 'margin'
                 }
             }),
+            phemex: new ccxt.phemex({
+                apiKey: process.env.PHEMEX_API_KEY,
+                secret: process.env.PHEMEX_SECRET
+                // enableRateLimit: true
+            }),
+            coinbase: new ccxt.coinbase({
+                apiKey: process.env.COINBASE_API_KEY,
+                secret: process.env.COINBASE_SECRET
+                // enableRateLimit: true
+            }),
+            bingx: new ccxt.bingx({
+                apiKey: process.env.BINGX_API_KEY,
+                secret: process.env.BINGX_SECRET  
+                  // verbose: true
+            }),
+            htx: new ccxt.htx({
+                apiKey: process.env.HTX_API_KEY,
+                secret: process.env.HTX_SECRET,
+                // enableRateLimit: true
+                verbose: true,
+                'options': {
+                    'defaultType': 'future',
+                }
+            }),
+            kraken: new ccxt.kraken({
+                apiKey: process.env.KRAKEN_API_KEY,
+                secret: process.env.KRAKEN_SECRET
+                // enableRateLimit: true
+            }),    
+            lbank: new ccxt.lbank({
+                apiKey: process.env.LBANK_API_KEY,
+                secret: process.env.LBANK_SECRET
+                // enableRateLimit: true
+            }),
+            bitfinex: new ccxt.bitfinex({
+                apiKey: process.env.BITFINEX_API_KEY,
+                secret: process.env.BITFINEX_SECRET
+        
+                // enableRateLimit: true
+            }),  
+            kucoin: new ccxt.kucoin({
+                apiKey: process.env.KUCOIN_API_KEY,
+                secret: process.env.KUCOIN_SECRET
+        
+                // enableRateLimit: true
+            })
             // etc.
         };
         // this.exchangeA = new ccxt.binance({
@@ -76,7 +122,7 @@ export class ArbitrageManager {
     }
     
 
-    public async executeArbitrage(symbol: string) {
+    public async executeArbitrage(symbol: string, exchange1: string, exchange2: string) {
         try {
             // Monitor Prices
             const exchangeA = this.getExchange('binance');
@@ -87,6 +133,9 @@ export class ArbitrageManager {
 
             console.log(`ExchangeA BTC Price: ${exchangeAPrice}`);
             console.log(`ExchangeB BTC Price: ${exchangeBPrice}`);
+
+            if(exchange1 == 'binance' && exchange2 == 'gate' ||
+                exchange2 == 'gate' && exchange1 == 'binance') {
 
             const absolutePriceDifference = Math.abs(exchangeAPrice - exchangeBPrice);
             const averagePrice = (exchangeAPrice + exchangeBPrice) / 2;
@@ -137,6 +186,7 @@ export class ArbitrageManager {
                 // const profit = this.calculateProfit(exchangeAPrice, exchangeBPrice, 100);
                 // console.log(`Profit: $${profit}`);
             }
+        }
 
         } catch (error) {
             sendEmail('jansipkovsky2@gmail.com', 'crt test e1', error as string);

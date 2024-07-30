@@ -161,7 +161,7 @@ export async function checkPrices() {
                 const priceDifferencePercent = (absolutePriceDifference / averagePrice) * 100;
 
 
-                console.log('priceDifferencePercent:', priceDifferencePercent);
+                // console.log('priceDifferencePercent:', priceDifferencePercent);
   
     
                 let percDiffMin = 4.5;
@@ -210,11 +210,15 @@ export async function checkPrices() {
                     is_centralized_2: isCentralized2
                   });
 
-                  if(ticker1.exchange == 'binance' && ticker2.exchange == 'gate' ||
-                    ticker1.exchange == 'gate' && ticker2.exchange == 'binance') {
+                  if((ticker1.exchange == 'binance' || ticker1.exchange == 'gate' || ticker1.exchange == 'phemex' || ticker1.exchange == 'bingx' || 
+                    ticker1.exchange == 'coinbase' || ticker1.exchange == 'htx' || ticker1.exchange == 'kraken' || ticker1.exchange == 'bitfinex' || 
+                    ticker1.exchange == 'kucoin' || ticker1.exchange == 'lbank') &&
+                    (ticker2.exchange == 'binance' || ticker2.exchange == 'gate' || ticker2.exchange == 'phemex' || ticker2.exchange == 'bingx' || 
+                      ticker2.exchange == 'coinbase' || ticker2.exchange == 'htx' || ticker2.exchange == 'kraken' || ticker2.exchange == 'bitfinex' || 
+                      ticker2.exchange == 'kucoin' || ticker2.exchange == 'lbank')) {
                     sendEmail('jansipkovsky2@gmail.com', 'crt test', price1 + ' ' + price2 + ' ' + pair);
                     const arbitrageManager = new ArbitrageManager();
-                    const bn = await arbitrageManager.executeArbitrage(pair);
+                    const bn = await arbitrageManager.executeArbitrage(pair, ticker1.exchange, ticker2.exchange);
                   }
                 }
               }

@@ -18,7 +18,7 @@ router.get('/currency-rates', async (_: Request, res: Response) => {
 router.get('/test', async (_: Request, res: Response) => {
   try {
     const arbitrageManager = new ArbitrageManager();
-    const bn = await arbitrageManager.executeArbitrage('BTC/USDT');
+    const bn = await arbitrageManager.executeArbitrage('BTC/USDT', 'binance', 'gate');
     // const bn = await arbitrageManager.getCurrentPrice('binance', 'BTC/USDT');
     // const gt = await arbitrageManager.getCurrentPrice('gate', 'BTC/USDT');
     console.log('BN:', bn);
