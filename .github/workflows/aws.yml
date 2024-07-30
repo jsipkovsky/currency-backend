@@ -23,6 +23,7 @@ jobs:
         HOST: ${{ secrets.HOST }}
         USERNAME: ${{ secrets.USERNAME }}
         TOKEN: ${{ secrets.TOKEN }}
+        ENV_VARS: ${{ secrets.ENV_VARS }}
       run: |
         ssh -o "StrictHostKeyChecking=no" $USERNAME@$HOST << 'ENDSSH'
           export TOKEN="${{ secrets.TOKEN }}"
