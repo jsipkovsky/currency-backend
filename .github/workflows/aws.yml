@@ -26,9 +26,9 @@ jobs:
       run: |
         ssh -o "StrictHostKeyChecking=no" $USERNAME@$HOST << 'ENDSSH'
           export TOKEN="${{ secrets.TOKEN }}"
+          cd currency-backend
           echo "${ENV_VARS}" > .env
           source .env
-          cd currency-backend
           git pull https://$TOKEN@github.com/jsipkovsky/currency-backend.git
           source ~/.nvm/nvm.sh
           nvm use $(cat .nvmrc)
