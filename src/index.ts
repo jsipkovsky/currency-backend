@@ -10,11 +10,6 @@ const logger = require('../src/logger');
 import * as dotenv from 'dotenv';
 dotenv.config();
 
-import {
-  SecretsManagerClient,
-  GetSecretValueCommand,
-} from "@aws-sdk/client-secrets-manager";
-
 const port = process.env.PORT || 8080;
 
 app.listen(port, async () => {
@@ -28,34 +23,6 @@ app.listen(port, async () => {
     console.log('Public IP:', ip);
     const host = process.env.PORT;
     console.log('user:', host);
-
-    // Use this code snippet in your app.
-// If you need more information about configurations or implementing the sample code, visit the AWS docs:
-// https://docs.aws.amazon.com/sdk-for-javascript/v3/developer-guide/getting-started.html
-
-
-// const secret_name = "testSecret";
-
-// const client = new SecretsManagerClient({
-//   region: "eu-central-1",
-// });
-
-// let response;
-
-// try {
-//   response = await client.send(
-//     new GetSecretValueCommand({
-//       SecretId: secret_name,
-//       VersionStage: "AWSCURRENT", // VersionStage defaults to AWSCURRENT if unspecified
-//     })
-//   );
-//   console.log(response);
-// } catch (error) {
-//   // For a list of exceptions thrown, see
-//   // https://docs.aws.amazon.com/secretsmanager/latest/apireference/API_GetSecretValue.html
-//   console.error(error);
-// }
-
 
     // const arbitrageManager = new ArbitrageManager();
     // const bn = await arbitrageManager.checkTargetBalance('ETH', 0.2);
