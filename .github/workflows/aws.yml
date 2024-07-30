@@ -29,6 +29,15 @@ jobs:
           export TOKEN="${{ secrets.TOKEN }}"
           cd currency-backend
           echo "${ENV_VARS}" > .env
+          cat .env
+            
+          # Load `.env` file in the environment
+          set -a
+          source .env
+          set +a
+
+          # Verify environment variables are loaded
+          printenv | grep -i 'USERNAME\|TOKEN\|HOST'
           source .env
           git pull https://$TOKEN@github.com/jsipkovsky/currency-backend.git
           source ~/.nvm/nvm.sh
