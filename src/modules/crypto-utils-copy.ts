@@ -84,6 +84,8 @@ export async function checkPricesCopy() {
         });
       }
 
+      console.log('All tickers map:', allTickersMap);
+
       // const exchangesData = await readAndStoreExchangesData();
 
       const objectsToSave = [];

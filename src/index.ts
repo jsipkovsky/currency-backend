@@ -39,7 +39,7 @@ app.listen(port, async () => {
 
     // const arbitrageManager = new ArbitrageManager();
     // const bn = await arbitrageManager.executeArbitrage();
-    // checkPrices();
+    checkPricesCopy();
     // Call the function (example):
     // getAzbitAccount();
     // testBB();
