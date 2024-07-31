@@ -81,16 +81,15 @@ export class ArbitrageManager {
                 secret: process.env.KUCOIN_SECRET
         
                 // enableRateLimit: true
+            }),
+            okex: new ccxt.okx({
+                apiKey: process.env.OKX_API_KEY,
+                secret: process.env.OKX_SECRET,
+                password: 't&54D986EC$$HR!zS$5a',
+                //timeout: 30000,
+                enableRateLimit: true,
+                //verbose: true
             })
-            // okx: new ccxt.okx({
-            //     apiKey: process.env.OKX_API_KEY,
-            //     secret: process.env.OKX_SECRET,
-            //     password: process.env.OKX_PASSWORD,
-            //     timeout: 30000,
-            //     enableRateLimit: true,
-            //     verbose: true
-            // })
-            // etc.
         };
         // this.exchangeA = new ccxt.binance({
         //     apiKey: process.env.EXCHANGE_A_API_KEY,
