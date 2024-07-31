@@ -55,7 +55,7 @@ export class ArbitrageManager {
                 apiKey: process.env.HTX_API_KEY,
                 secret: process.env.HTX_SECRET,
                 // enableRateLimit: true
-                verbose: true,
+                // verbose: true,
                 'options': {
                     'defaultType': 'future',
                 }
