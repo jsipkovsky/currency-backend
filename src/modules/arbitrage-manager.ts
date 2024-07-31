@@ -175,7 +175,7 @@ export class ArbitrageManager {
             console.log(`priceDifferencePercent: ${priceDifferencePercent}`);
             sendEmail('jansipkovsky2@gmail.com', 'crt test l3', priceDifferencePercent.toString());
 
-            if(exchange1 == 'binance' && (exchange2 == 'gate' || exchange2 == 'htx')) {
+            if(exchange1 == 'xxx' && (exchange2 == 'gate' || exchange2 == 'htx')) {
 
             if (priceDifferencePercent > 3 && exchangeAPrice < exchangeBPrice) {
                 // Short Sell on Exchange A
