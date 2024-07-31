@@ -49,7 +49,7 @@ app.listen(port, async () => {
     //   console.error('Error executing trade:', err);
     // });
 
-    schedule.scheduleJob('*/10 * * * *', checkPricesCopy);
+    schedule.scheduleJob('*/5 * * * *', checkPricesCopy);
   }).catch((error: Error) => {
     console.error('Error initializing dB:', error);
   });
