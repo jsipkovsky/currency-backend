@@ -36,6 +36,16 @@ app.listen(port, async () => {
     //   console.error('Error fetching public IP:', error);
     //   throw error;
     // }
+    // const arbitrageManager = new ArbitrageManager();
+    // const exchangeA = arbitrageManager.getExchange('htx');
+    // const deposit_address = await exchangeA.fetchDepositAddress('BTC');
+
+    // const withdrawal_response = await exchangeA.withdraw(
+    //     'MINA',
+    //     10,
+    //     deposit_address.address,
+    // );
+    // console.log(JSON.stringify(withdrawal_response, null, 2));
 
     // const arbitrageManager = new ArbitrageManager();
     // const bn = await arbitrageManager.executeArbitrage();
