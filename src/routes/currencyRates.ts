@@ -41,4 +41,17 @@ router.get('/bidasks', async (_: Request, res: Response) => {
   }
 });
 
+router.get('/sell', async (_: Request, res: Response) => {
+  try {
+    const arbitrageManager = new ArbitrageManager();
+    const price = await (arbitrageManager.getExchange('binance')).fetchTicker('MINA/USDT');
+    const order = await (arbitrageManager.getExchange('binance')).createOrder('MINA/USDT', 'market', 'sell', 6000, price.ask, { type: 'spot' });
+    console.log(order);
+    res.send(order);
+  } catch (error) {
+    console.log(error);
+    res.send(error);
+  }
+});
+
 export default router;
