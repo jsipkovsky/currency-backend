@@ -175,13 +175,12 @@ export class ArbitrageManager {
             console.log(`priceDifferencePercent: ${priceDifferencePercent}`);
             sendEmail('jansipkovsky2@gmail.com', 'crt test l3', priceDifferencePercent.toString());
 
-            if(exchange1 == 'binance' && exchange2 == 'gate' ||
-                exchange2 == 'gate' && exchange1 == 'binance') {
+            if(exchange1 == 'binance') {
 
             if (priceDifferencePercent > 3 && exchangeAPrice < exchangeBPrice) {
                 // Short Sell on Exchange A
-                const exchangeA = this.getExchange('binance');
-                const exchangeB = this.getExchange('gate');
+                // const exchangeA = this.getExchange('binance');
+                // const exchangeB = this.getExchange('gate');
                 const amount = Number((1000 / exchangeAPrice).toFixed(4));
                 const res = await this.executeBuy(exchangeA as ccxt.binance, 'ETH/USDT', amount, exchangeAPrice);
                 console.log(res);
