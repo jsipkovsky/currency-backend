@@ -65,7 +65,7 @@ export async function checkPricesCopy() {
     try {
         console.log('Checking prices...');
         // Add selected exchanges to exchangeList ensuring there are no duplicates
-      const exchangeListBase = ['binance', 'gate', 'phemex', 'bingx', 'coinbase',
+      const exchangeListBase = ['coinbase', // 'binance', 'gate', 'phemex', 'bingx',
         'htx', 'kraken', 'bitfinex', 'kucoin', 'lbank', 'okex'];
 
       const allTickersMap: { [key: string]: any[] } = {};
