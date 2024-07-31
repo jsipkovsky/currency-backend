@@ -184,6 +184,7 @@ export class ArbitrageManager {
                 const amount = Number((1000 / exchangeAPrice).toFixed(4));
                 const res = await this.executeBuy(exchangeA as ccxt.binance, symbol, amount, exchangeAPrice);
                 console.log(JSON.stringify(res, null, 2));
+                console.log('buy good');
 
                 const coin = symbol.split('/')[0];
                 const deposit_address = await exchangeB.fetchDepositAddress(coin);
@@ -204,6 +205,7 @@ export class ArbitrageManager {
                 const resSell = await this.executeSell(exchangeB as ccxt.gate, symbol, amount, exchangeBPrice);
                 // console.log(resSell);
                 console.log(JSON.stringify(resSell, null, 2))
+                console.log('sell good');
 
                 sendEmail('jansipkovsky2@gmail.com', 'crt test', JSON.stringify(resSell.info) + JSON.stringify(res.info));
                 // console.log(res);
