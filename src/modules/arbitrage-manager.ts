@@ -22,73 +22,73 @@ export class ArbitrageManager {
     constructor() {
         this.exchanges = {
             gate: new ccxt.gate({
-                // apiKey: process.env.GATE_API_KEY,
-                // secret: process.env.GATE_SECRET,
-                // enableRateLimit: true
+                apiKey: process.env.GATE_API_KEY,
+                secret: process.env.GATE_SECRET,
+                enableRateLimit: true
             }),
             // Add other exchanges here
             binance: new ccxt.binance({
-                // apiKey: process.env.BINANCE_API_KEY,
-                // secret: process.env.BINANCE_SECRET,
-                // enableRateLimit: true,
-                // // verbose: true,
-                // 'options': {
-                //     'defaultType': 'margin'
-                // }
+                apiKey: process.env.BINANCE_API_KEY,
+                secret: process.env.BINANCE_SECRET,
+                enableRateLimit: true,
+                // verbose: true,
+                'options': {
+                    'defaultType': 'margin'
+                }
             }),
             phemex: new ccxt.phemex({
-                // apiKey: process.env.PHEMEX_API_KEY,
-                // secret: process.env.PHEMEX_SECRET
+                apiKey: process.env.PHEMEX_API_KEY,
+                secret: process.env.PHEMEX_SECRET
                 // enableRateLimit: true
             }),
             coinbase: new ccxt.coinbase({
-                // apiKey: process.env.COINBASE_API_KEY,
-                // secret: process.env.COINBASE_SECRET
+                apiKey: process.env.COINBASE_API_KEY,
+                secret: process.env.COINBASE_SECRET
                 // enableRateLimit: true
             }),
             bingx: new ccxt.bingx({
-                // apiKey: process.env.BINGX_API_KEY,
-                // secret: process.env.BINGX_SECRET  
+                apiKey: process.env.BINGX_API_KEY,
+                secret: process.env.BINGX_SECRET  
                   // verbose: true
             }),
             htx: new ccxt.htx({
-                // apiKey: process.env.HTX_API_KEY,
-                // secret: process.env.HTX_SECRET,
-                // // enableRateLimit: true
-                // // verbose: true,
-                // 'options': {
-                //     'defaultType': 'future',
-                // }
+                apiKey: process.env.HTX_API_KEY,
+                secret: process.env.HTX_SECRET,
+                // enableRateLimit: true
+                // verbose: true,
+                'options': {
+                    'defaultType': 'future',
+                }
             }),
             kraken: new ccxt.kraken({
-                // apiKey: process.env.KRAKEN_API_KEY,
-                // secret: process.env.KRAKEN_SECRET
+                apiKey: process.env.KRAKEN_API_KEY,
+                secret: process.env.KRAKEN_SECRET
                 // enableRateLimit: true
             }),    
             lbank: new ccxt.lbank({
-                // apiKey: process.env.LBANK_API_KEY,
-                // secret: process.env.LBANK_SECRET
+                apiKey: process.env.LBANK_API_KEY,
+                secret: process.env.LBANK_SECRET
                 // enableRateLimit: true
             }),
             bitfinex: new ccxt.bitfinex({
-                // apiKey: process.env.BITFINEX_API_KEY,
-                // secret: process.env.BITFINEX_SECRET
-        
+                apiKey: process.env.BITFINEX_API_KEY,
+                secret: process.env.BITFINEX_SECRET
+
                 // enableRateLimit: true
             }),  
             kucoin: new ccxt.kucoin({
-                // apiKey: process.env.KUCOIN_API_KEY,
-                // secret: process.env.KUCOIN_SECRET
-        
+                apiKey: process.env.KUCOIN_API_KEY,
+                secret: process.env.KUCOIN_SECRET
+
                 // enableRateLimit: true
             }),
             okex: new ccxt.okx({
-                // apiKey: process.env.OKX_API_KEY,
-                // secret: process.env.OKX_SECRET,
-                // password: 't&54D986EC$$HR!zS$5a',
-                // //timeout: 30000,
-                // enableRateLimit: true,
-                // //verbose: true
+                apiKey: process.env.OKX_API_KEY,
+                secret: process.env.OKX_SECRET,
+                password: 't&54D986EC$$HR!zS$5a',
+                //timeout: 30000,
+                enableRateLimit: true,
+                //verbose: true
             }),
             whitebit: new ccxt.whitebit({
             }),
