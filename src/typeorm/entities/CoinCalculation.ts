@@ -55,4 +55,7 @@ export class CoinCalculation {
 
     @Column('varchar', { nullable: false, length: 45 })
         type_two!: string;
+
+    @Column('boolean', { nullable: false, default: false })
+        is_ccxt!: boolean;
 }

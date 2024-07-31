@@ -18,6 +18,7 @@ export class ArbitrageManager {
     // private exchangeA: ccxt.Exchange;
     // private exchangeB: ccxt.Exchange;
     private exchanges: { [key: string]: ccxt.Exchange } = {};
+    private marketCache: Record<string, any> = {};
     constructor() {
         this.exchanges = {
             gate: new ccxt.gate({
@@ -80,6 +81,14 @@ export class ArbitrageManager {
                 secret: process.env.KUCOIN_SECRET
         
                 // enableRateLimit: true
+            }),
+            okx: new ccxt.okx({
+                apiKey: process.env.OKX_API_KEY,
+                secret: process.env.OKX_SECRET,
+                password: process.env.OKX_PASSWORD,
+                timeout: 30000,
+                enableRateLimit: true,
+                verbose: true
             })
             // etc.
         };
@@ -100,6 +109,26 @@ export class ArbitrageManager {
 
     getExchange(name: string) {
         return this.exchanges[name];
+    }
+
+    async fetchUSDTMarkets(exchange: ccxt.Exchange, exchangeId: string): Promise<string[]> {
+        if (!this.marketCache[exchangeId]) {
+            try {
+                const markets = await exchange.loadMarkets();
+                const usdtSymbols: string[] = [];
+    
+                for (const market of Object.values(markets)) {
+                    if (market?.symbol.endsWith("USDT") && market.spot) {
+                        usdtSymbols.push(market.symbol);
+                    }
+                }
+                this.marketCache[exchangeId] = usdtSymbols;
+            } catch (error) {
+                console.error(`Error in fetchUSDTMarkets for ${exchangeId}:`, error);
+                throw error;
+            }
+        }
+        return this.marketCache[exchangeId];
     }
 
     async checkTargetBalance(coin: string, amount: number) {
@@ -194,18 +223,99 @@ export class ArbitrageManager {
         }
     }
 
+    calculateCostToMove(orderBook: any, percentage: number, volume: number, type: 'up' | 'down'): number {
+        let cumulativeVolume = 0;
+        let cumulativeCost = 0;
+        const orders = type === 'up' ? orderBook.asks : orderBook.bids;
+    
+        for (const [price, orderVolume] of orders) {
+            cumulativeVolume += orderVolume;
+            cumulativeCost += price * orderVolume;
+    
+            if (cumulativeVolume >= volume * (percentage / 100)) {
+                return cumulativeCost;
+            }
+        }
+    
+        return cumulativeCost;
+    }
+    
+
+    async fetchDepth(exchange: string, symbol: string, baseVolume: number): Promise<any> {
+        try {
+            const orderBook = await this.getExchange(exchange).fetchOrderBook(symbol);
+
+            const costToMoveUpUSD = this.calculateCostToMove(orderBook, 2, baseVolume, 'up');
+            const costToMoveDownUSD = this.calculateCostToMove(orderBook, 2, baseVolume, 'down');
+            return { costToMoveUpUSD, costToMoveDownUSD };
+        } catch (error) {
+            console.error('Error in fetchAndProcessTickers:', error);
+            throw error;
+        }
+    }
+
+
+    async fetchAndProcessTickers(exchange: ccxt.Exchange, symbols: string[]): Promise<any[]> {
+        try {
+            const tickers = await exchange.fetchTickers(symbols);
+            const processedData = await Promise.all(
+                Object.values(tickers).map(async (ticker: ccxt.Ticker) => {
+                    const { symbol, bid, ask, baseVolume } = ticker;
+                    const bid_ask_spread_percentage = ((ask! - bid!) / bid!) * 100;
+    
+                    // Fetch order book for the symbol
+                    // const orderBook = await exchange.fetchOrderBook(symbol);
+    
+                    // Calculate the cost to move 2% of the base volume
+                    // const costToMoveUpUSD = calculateCostToMove(orderBook, 2, baseVolume, 'up');
+                    // const costToMoveDownUSD = calculateCostToMove(orderBook, 2, baseVolume, 'down');
+    
+                    return {
+                        symbol,
+                        bid_ask_spread_percentage,
+                        baseVolume,
+                        last: bid,
+                        volume: ticker.quoteVolume,
+                        // costToMoveUpUSD,
+                        // costToMoveDownUSD,
+                    };
+                })
+            );
+    
+            return processedData;
+        } catch (error) {
+            console.error('Error in fetchAndProcessTickers:', error);
+            throw error;
+        }
+    }
+
+    async fetchBidsAsksForUSDTMarkets(exchange: ccxt.Exchange, usdtSymbols: string[]): Promise<any[]> {
+        try {
+            let allProcessedData: any[] = [];
+            const CHUNK_SIZE = 100;
+            for (let i = 0; i < usdtSymbols.length; i += CHUNK_SIZE) {
+                const chunk = usdtSymbols.slice(i, i + CHUNK_SIZE);
+                const chunkData = await this.fetchAndProcessTickers(exchange, chunk);
+                allProcessedData.push(...chunkData);  // Spread to flatten results
+            }
+    
+            return allProcessedData;
+        } catch (error) {
+            console.error('Error in fetchBidsAsksForUSDTMarkets:', error);
+            throw error;
+        }
+    }
+
     async fetchBidsAsks(exchange: ccxt.Exchange): Promise<any> {
         try {
-            const markets = await exchange.loadMarkets();
-            if (exchange.has['fetchTickers']) {
-                // console.log (await (exchange.fetchTickers ())) // all tickers indexed by their symbols
-            } else {
-                console.log (exchange.id, 'does not have fetchTickers')
-            }
+            const markets = await exchange.loadMarkets(undefined, { });
+            const usdtSymbols = await this.fetchUSDTMarkets(exchange, exchange.id);
+            // const orderBook = await exchange.fetchOrderBook('ETH/USDT');
+            const vals = await this.fetchBidsAsksForUSDTMarkets(exchange, usdtSymbols);
             console.log('Markets:', JSON.stringify(markets));
 
             //const bidsAsks = await exchange.fetchTickers(undefined, { });
-            return null;
+            return vals;
         } catch (error: any) {
             console.error(`Error fetching price on ${exchange}:`, error);
             return error.message ?? '0';

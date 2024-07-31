@@ -8,24 +8,21 @@ import { getPublicIP } from './modules/common';
 import { ArbitrageManager } from './modules/arbitrage-manager';
 const logger = require('../src/logger');
 import * as dotenv from 'dotenv';
+import { checkPricesCopy } from './modules/crypto-utils-copy';
 dotenv.config();
 
 const port = process.env.PORT || 8080;
 
 app.listen(port, async () => {
   console.log(`currency-backend application is running on port ${port}.✅`);
-  const host = process.env.HUP;
-  console.log('user:', host);
   AppDataSource.initialize().then(async () => {
 
     console.log('database initialized.🗄️');
     const ip = await getPublicIP();
     console.log('Public IP:', ip);
-    const host = process.env.PORT;
-    console.log('user:', host);
 
     // const arbitrageManager = new ArbitrageManager();
-    // const bn = await arbitrageManager.checkTargetBalance('ETH', 0.2);
+    // const bn = await arbitrageManager.fetchBidsAsks(arbitrageManager.getExchange('binance'));
     // const bn = await arbitrageManager.executeArbitrage('ETH/USDT');
     // const resbalance = await arbitrageManager.getExchange('gate').fetchBalance({ type: 'spot' });
 
@@ -52,7 +49,7 @@ app.listen(port, async () => {
     //   console.error('Error executing trade:', err);
     // });
 
-    schedule.scheduleJob('*/10 * * * *', checkPrices);
+    schedule.scheduleJob('*/10 * * * *', checkPricesCopy);
   }).catch((error: Error) => {
     console.error('Error initializing dB:', error);
   });
