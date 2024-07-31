@@ -89,6 +89,12 @@ export class ArbitrageManager {
                 //timeout: 30000,
                 enableRateLimit: true,
                 //verbose: true
+            }),
+            whitebit: new ccxt.whitebit({
+            }),
+            alpaca: new ccxt.alpaca({
+            }),
+            poloniex: new ccxt.poloniex({
             })
         };
         // this.exchangeA = new ccxt.binance({

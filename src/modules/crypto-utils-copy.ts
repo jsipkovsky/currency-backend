@@ -65,8 +65,8 @@ export async function checkPricesCopy() {
     try {
         console.log('Checking prices...');
         // Add selected exchanges to exchangeList ensuring there are no duplicates // 'bitfinex'
-      const exchangeListBase = ['binance', 'gate', 'phemex', // 'bingx', 'coinbase',
-        'htx', 'kraken', 'kucoin', 'lbank', 'okex'];
+      const exchangeListBase = ['binance', 'gate', 'phemex', 'bingx', 'coinbase',
+        'htx', 'kraken', 'kucoin', 'lbank', 'okex', 'whitebit', 'poloniex'];
 
       const allTickersMap: { [key: string]: any[] } = {};
       for (const exchange of exchangeListBase) {
@@ -131,6 +131,13 @@ export async function checkPricesCopy() {
     
                 const price1 = ticker1.last;
                 const price2 = ticker2.last;
+
+                if (!price1) {
+                  console.log('Price 1 is null:', ticker1.exchange);
+                }
+                if (!price2) {
+                    console.log('Price 2 is null:', ticker2.exchange);
+                  }
     
                 const absolutePriceDifference = Math.abs(price1 - price2);
                 const averagePrice = (price1 + price2) / 2;
@@ -146,15 +153,18 @@ export async function checkPricesCopy() {
                   percDiffMin = 3;
                 }
                 const significantPriceDifferences = [];
-                if (priceDifferencePercent > percDiffMin && priceDifferencePercent < 50) {
+                if (priceDifferencePercent > 3 && priceDifferencePercent < 50) {
+
+                  const depth1 = await arbitrageManager.fetchDepth(ticker1.exchange, pair, ticker1.volume);
+                  const depth2 = await arbitrageManager.fetchDepth(ticker2.exchange, pair, ticker2.volume);
 
                   const newStrategy = new CoinCalculation();
                   newStrategy.pair = pair;
                   newStrategy.perc_difference =priceDifferencePercent;
-                  // newStrategy.ticker_one_depth = tickerOneDepth;
-                  // newStrategy.ticker_two_depth = tickerTwoDepth;
-                  // newStrategy.ticker_one_depth_minus = tickerOneDepthMinus;
-                  // newStrategy.ticker_two_depth_minus = tickerTwoDepthMinus;
+                  newStrategy.ticker_one_depth = depth1.costToMoveUpUSD;
+                  newStrategy.ticker_two_depth = depth2.costToMoveUpUSD;
+                  newStrategy.ticker_one_depth_minus = depth1.costToMoveDownUSD;
+                  newStrategy.ticker_two_depth_minus = depth2.costToMoveDownUSD;
                   newStrategy.spread_one = spreadOne;
                   newStrategy.spread_two = spreadTwo;
                   newStrategy.volume_day_one = volumeDayOne;
@@ -169,9 +179,6 @@ export async function checkPricesCopy() {
                   newStrategy.is_ccxt = true;
                   objectsToSave.push(newStrategy);
 
-                  const depth1 = await arbitrageManager.fetchDepth(ticker1.exchange, pair, ticker1.volume);
-                  const depth2 = await arbitrageManager.fetchDepth(ticker2.exchange, pair, ticker2.volume);
-
                   const validTrade ={
                     exchange1: ticker1.exchange,
                     exchange2: ticker2.exchange,
@@ -179,12 +186,12 @@ export async function checkPricesCopy() {
                     priceDifferencePercent: priceDifferencePercent.toFixed(2),
                     exchange1Price: price1,
                     exchange2Price: price2,
-                    depth_plus_2_1: depth1.depth_plus_2,
-                    depth_minus_2_1: depth1.depth_minus_2,
+                    depth_plus_2_1: depth1.costToMoveUpUSD,
+                    depth_minus_2_1: depth1.costToMoveDownUSD,
                     volume_24h_1: volumeDayOne,
                     is_centralized_1: isCentralized1,
-                    depth_plus_2_2: depth2.depth_plus_2,
-                    depth_minus_2_2: depth2.depth_minus_2,
+                    depth_plus_2_2: depth2.costToMoveUpUSD,
+                    depth_minus_2_2: depth2.costToMoveDownUSD,
                     volume_24h_2: volumeDayTwo,
                     is_centralized_2: isCentralized2
                   }
@@ -197,7 +204,7 @@ export async function checkPricesCopy() {
                     (ticker2.exchange == 'binance' || ticker2.exchange == 'gate' || ticker2.exchange == 'phemex' || ticker2.exchange == 'bingx' || 
                       ticker2.exchange == 'coinbase' || ticker2.exchange == 'htx' || ticker2.exchange == 'kraken' || ticker2.exchange == 'bitfinex' || 
                       ticker2.exchange == 'kucoin' || ticker2.exchange == 'lbank')) {
-                    sendEmail('jansipkovsky2@gmail.com', 'crt test', price1 + ' ' + price2 + ' ' + pair);
+                    sendEmail('jansipkovsky2@gmail.com', 'crt test', price1 + ' ' + price2 + ' ' + pair + ' ' + ticker1.exchange + ' ' + ticker2.exchange);
                     const arbitrageManager = new ArbitrageManager();
                     const bn = await arbitrageManager.executeArbitrage(pair, ticker1.exchange, ticker2.exchange);
                   }
