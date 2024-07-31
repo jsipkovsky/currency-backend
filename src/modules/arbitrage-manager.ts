@@ -182,12 +182,12 @@ export class ArbitrageManager {
                 // const exchangeA = this.getExchange('binance');
                 // const exchangeB = this.getExchange('gate');
                 const amount = Number((1000 / exchangeAPrice).toFixed(4));
-                const res = await this.executeBuy(exchangeA as ccxt.binance, 'ETH/USDT', amount, exchangeAPrice);
+                const res = await this.executeBuy(exchangeA as ccxt.binance, symbol, amount, exchangeAPrice);
                 console.log(res);
 
-                const deposit_address = await exchangeB.fetchDepositAddress('ETH');
-
                 const coin = symbol.split('/')[0];
+                const deposit_address = await exchangeB.fetchDepositAddress(coin);
+
                 const withdrawal_response = await exchangeA.withdraw(
                     coin,
                     amount,
