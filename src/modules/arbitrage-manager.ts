@@ -266,9 +266,9 @@ export class ArbitrageManager {
                 Object.values(tickers).map(async (ticker: ccxt.Ticker) => {
                     const { symbol, bid, ask, baseVolume } = ticker;
                     const bid_ask_spread_percentage = ((ask! - bid!) / bid!) * 100;
-                    if (bid === undefined) {
-                        console.log('Bid is undefined:', ticker.symbol);
-                    }
+                    // if (bid === undefined) {
+                    //     console.log('Bid is undefined:', ticker.symbol);
+                    // }
     
                     // Fetch order book for the symbol
                     // const orderBook = await exchange.fetchOrderBook(symbol);
