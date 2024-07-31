@@ -175,7 +175,7 @@ export class ArbitrageManager {
             console.log(`priceDifferencePercent: ${priceDifferencePercent}`);
             sendEmail('jansipkovsky2@gmail.com', 'crt test l3', priceDifferencePercent.toString());
 
-            if(exchange1 == 'xxx' && (exchange2 == 'gate' || exchange2 == 'htx')) {
+            if(exchange1 == 'binance' && (exchange2 == 'gate' || exchange2 == 'htx')) {
 
             if (priceDifferencePercent > 3 && exchangeAPrice < exchangeBPrice) {
                 // Short Sell on Exchange A
@@ -184,7 +184,7 @@ export class ArbitrageManager {
                 const amount = Number((1000 / exchangeAPrice).toFixed(4));
                 const res = await this.executeBuy(exchangeA as ccxt.binance, symbol, amount, exchangeAPrice);
                 console.log(JSON.stringify(res, null, 2));
-                console.log('buy good');
+                console.log('buy good!!');
 
                 const coin = symbol.split('/')[0];
                 const deposit_address = await exchangeB.fetchDepositAddress(coin);
@@ -197,17 +197,17 @@ export class ArbitrageManager {
                 console.log(JSON.stringify(withdrawal_response, null, 2));
                 // console.log(withdrawal_response);
 
-                console.log(`Checking ${amount} ${symbol}`);
-
+                console.log(`wd response ${amount} ${symbol}`);
+                sendEmail('jansipkovsky2@gmail.com', 'crt test', 'wd response ' + JSON.stringify(withdrawal_response));
                 const transfed = await this.checkTargetBalance(coin, amount); 
                 console.log(transfed);
-
-                const resSell = await this.executeSell(exchangeB as ccxt.gate, symbol, amount, exchangeBPrice);
+                console.log('try execute sell');
+                const resSell = await this.executeSell(exchangeB, symbol, amount, exchangeBPrice);
                 // console.log(resSell);
                 console.log(JSON.stringify(resSell, null, 2))
                 console.log('sell good');
 
-                sendEmail('jansipkovsky2@gmail.com', 'crt test', JSON.stringify(resSell.info) + JSON.stringify(res.info));
+                sendEmail('jansipkovsky2@gmail.com', 'crt test', JSON.stringify(resSell?.info) + JSON.stringify(res.info));
                 // console.log(res);
                 // return res;
 
@@ -391,7 +391,7 @@ export class ArbitrageManager {
         return order;
     }
 
-    private async executeSell(exchange: ccxt.gate, symbol: string, amount: number, price: number) {
+    private async executeSell(exchange: ccxt.Exchange, symbol: string, amount: number, price: number) {
         console.log(`Selling ${amount} ${symbol} at ${price} on ${exchange.name}`);
         // Example: Buy using createOrder
         const order = await exchange.createOrder(symbol, 'market', 'sell', amount, price, { type: 'spot' });
