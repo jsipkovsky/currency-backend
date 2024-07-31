@@ -312,7 +312,7 @@ export class ArbitrageManager {
             const usdtSymbols = await this.fetchUSDTMarkets(exchange, exchange.id);
             // const orderBook = await exchange.fetchOrderBook('ETH/USDT');
             const vals = await this.fetchBidsAsksForUSDTMarkets(exchange, usdtSymbols);
-            console.log('Markets:', JSON.stringify(markets));
+            // console.log('Markets:', JSON.stringify(markets));
 
             //const bidsAsks = await exchange.fetchTickers(undefined, { });
             return vals;
