@@ -38,7 +38,7 @@ app.listen(port, async () => {
     // }
     // const arbitrageManager = new ArbitrageManager();
     // const exchangeA = arbitrageManager.getExchange('htx');
-    // const deposit_address = await exchangeA.fetchDepositAddress('BTC');
+    // const deposit_address = await exchangeA.fetchDepositAddress('ETH');
 
     // const withdrawal_response = await exchangeA.withdraw(
     //     'MINA',
@@ -49,7 +49,7 @@ app.listen(port, async () => {
 
     // const arbitrageManager = new ArbitrageManager();
     // const bn = await arbitrageManager.executeArbitrage();
-    checkPricesCopy();
+    // checkPricesCopy();
     // Call the function (example):
     // getAzbitAccount();
     // testBB();

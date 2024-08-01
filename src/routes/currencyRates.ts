@@ -32,9 +32,12 @@ router.get('/test', async (_: Request, res: Response) => {
 router.get('/bidasks', async (_: Request, res: Response) => {
   try {
     const arbitrageManager = new ArbitrageManager();
-    const ba = await arbitrageManager.fetchBidsAsks(arbitrageManager.getExchange('binance'));
-    console.log('BN:', ba);
-    res.send(ba);
+    const exchangeA = arbitrageManager.getExchange('htx');
+    const deposit_address = await exchangeA.fetchDepositAddress('ETH');
+    // const arbitrageManager = new ArbitrageManager();
+    // const ba = await arbitrageManager.fetchBidsAsks(arbitrageManager.getExchange('binance'));
+    // console.log('BN:', ba);
+    res.send(deposit_address);
   } catch (error) {
     console.log(error);
     res.send(error);
