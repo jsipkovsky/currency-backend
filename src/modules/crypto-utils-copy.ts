@@ -65,8 +65,8 @@ export async function checkPricesCopy() {
     try {
         console.log('Checking prices...');
         // Add selected exchanges to exchangeList ensuring there are no duplicates // 'bitfinex'
-      const exchangeListBase = ['binance', 'gate', 'phemex', // 'bingx', 'coinbase',
-        'htx', 'kraken', 'kucoin', 'lbank', 'okex', 'whitebit', 'poloniex'];
+      const exchangeListBase = ['binance', 'gate', 'phemex', 'bingx', 'coinbase',
+        'htx', 'kraken', 'kucoin', 'lbank', 'okex']; // , 'whitebit', 'poloniex'];
 
       const allTickersMap: { [key: string]: any[] } = {};
       for (const exchange of exchangeListBase) {
@@ -150,7 +150,7 @@ export async function checkPricesCopy() {
                 if (!isCentralized1 && !isCentralized2) {
                   percDiffMin = 4;
                 } else if (isCentralized1 && isCentralized2) {
-                  percDiffMin = 3;
+                  percDiffMin = 2.5;
                 }
                 const significantPriceDifferences = [];
                 if (priceDifferencePercent > 3 && priceDifferencePercent < 50) {
