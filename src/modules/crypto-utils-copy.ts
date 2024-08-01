@@ -132,12 +132,12 @@ export async function checkPricesCopy() {
                 const price1 = ticker1.last;
                 const price2 = ticker2.last;
 
-                if (!price1) {
-                  console.log('Price 1 is null:', ticker1.exchange);
-                }
-                if (!price2) {
-                    console.log('Price 2 is null:', ticker2.exchange);
-                  }
+                // if (!price1) {
+                //   console.log('Price 1 is null:', ticker1.exchange);
+                // }
+                // if (!price2) {
+                //     console.log('Price 2 is null:', ticker2.exchange);
+                //   }
     
                 const absolutePriceDifference = Math.abs(price1 - price2);
                 const averagePrice = (price1 + price2) / 2;
