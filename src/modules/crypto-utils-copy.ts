@@ -161,9 +161,9 @@ export async function checkPricesCopy() {
                 const price1 = ticker1.last;
                 const price2 = ticker2.last;
 
-                if(ticker1.exchange == 'azbit' || ticker2.exchange == 'azbit') {
-                  console.log('Azbit pair:', pair);
-                }
+                // if(ticker1.exchange == 'azbit' || ticker2.exchange == 'azbit') {
+                //   console.log('Azbit pair:', pair);
+                // }
 
                 // if (!price1) {
                 //   console.log('Price 1 is null:', ticker1.exchange);
