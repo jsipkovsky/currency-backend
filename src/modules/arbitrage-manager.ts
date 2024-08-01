@@ -176,9 +176,9 @@ export class ArbitrageManager {
             console.log(`priceDifferencePercent: ${priceDifferencePercent}`);
             sendEmail('jansipkovsky2@gmail.com', 'crt test l3', priceDifferencePercent.toString());
 
-            if(exchange1 == 'gate' && exchange2 == 'htx') {
+            if(exchange1 == 'binance' || exchange1 == 'gate') {
 
-            if (priceDifferencePercent > 0 && exchangeAPrice < exchangeBPrice) {
+            if (priceDifferencePercent > 1.5 && exchangeAPrice < exchangeBPrice) {
 
                 const coin = symbol.split('/')[0];
                 const deposit_address = await exchangeB.fetchDepositAddress(coin);

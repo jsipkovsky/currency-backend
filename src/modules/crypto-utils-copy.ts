@@ -150,7 +150,7 @@ export async function checkPricesCopy() {
                 if (!isCentralized1 && !isCentralized2) {
                   percDiffMin = 4;
                 } else if (isCentralized1 && isCentralized2) {
-                  percDiffMin = 2.5;
+                  percDiffMin = 1.5;
                 }
                 const significantPriceDifferences = [];
                 if (priceDifferencePercent > 3 && priceDifferencePercent < 50) {
