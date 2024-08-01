@@ -73,7 +73,7 @@ export async function getAzbitAccount() {
     //     'X-MBX-APIKEY': API_KEY
     //   }
     // });
-    console.log(response.data);
+    // console.log(response.data);
     return response.data;
   } catch (error) {
     console.error(`Error`);
