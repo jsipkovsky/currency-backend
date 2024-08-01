@@ -144,7 +144,7 @@ export async function checkPricesCopy() {
                 const priceDifferencePercent = (absolutePriceDifference / averagePrice) * 100;
 
 
-                console.log('priceDifferencePercent:', priceDifferencePercent);
+                // console.log('priceDifferencePercent:', priceDifferencePercent);
     
                 let percDiffMin = 4.5;
                 if (!isCentralized1 && !isCentralized2) {
