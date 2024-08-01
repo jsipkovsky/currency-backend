@@ -256,6 +256,9 @@ export class ArbitrageManager {
 
     async fetchDepth(exchange: string, symbol: string, baseVolume: number): Promise<any> {
         try {
+            if(exchange == 'azbit') {
+                return { costToMoveUpUSD: 0, costToMoveDownUSD: 0 };
+            }
             const orderBook = await this.getExchange(exchange).fetchOrderBook(symbol);
 
             const costToMoveUpUSD = this.calculateCostToMove(orderBook, 2, baseVolume, 'up');
