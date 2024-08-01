@@ -176,7 +176,7 @@ export class ArbitrageManager {
             console.log(`priceDifferencePercent: ${priceDifferencePercent}`);
             sendEmail('jansipkovsky2@gmail.com', 'crt test l3', priceDifferencePercent.toString());
 
-            if(exchange1 == 'binance' || exchange1 == 'gate') {
+            if(exchange1 != 'xxx') {
 
             if (priceDifferencePercent > 1.5 && exchangeAPrice < exchangeBPrice) {
 
