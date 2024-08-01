@@ -24,7 +24,7 @@ export async function getAzbitAccount() {
   const queryString = `timestamp=${timestamp}`;
   const signature = createSignature(queryString, API_SECRET);
 
-  const requestBodyString = '{"side":"buy","currencyPairCode":"ETH_BTC","amount":0.01,"price":0.02}';
+  const requestBodyString = '{"currencyPairCode":"MINA_USDT"}';
   const requestUrl = 'https://data.azbit.com/api/orders';
 
   let signature2 = crypto.enc.Hex.stringify(crypto.HmacSHA256(API_KEY + requestUrl + requestBodyString, API_SECRET));
@@ -55,15 +55,16 @@ export async function getAzbitAccount() {
   };
 
   const httpOptions = {
-    method: 'post',
-    url: 'https://data.azbit.com/api/orders',
-    timeout: 10000,
-    headers:{
-      'API-PublicKey'	: API_KEY,
-      'API-Signature': sig.toString().trim(),
-      'Content-Type': 'application/json'
-    },
-    data,
+    method: 'get',
+    url: 'https://data.azbit.com/api/tickers',
+    timeout: 100000,
+    // headers:{
+    //   currencyPairCode: 'MINA_USDT',
+    //   // 'API-PublicKey'	: API_KEY,
+    //   // 'API-Signature': sig.toString().trim(),
+    //   // 'Content-Type': 'application/json'
+    // },
+    // data,
   };
   try {
     const response = await axios(httpOptions);
@@ -73,8 +74,10 @@ export async function getAzbitAccount() {
     //   }
     // });
     console.log(response.data);
+    return response.data;
   } catch (error) {
     console.error(`Error`);
+    return [];
   }
 }
 

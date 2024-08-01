@@ -4,6 +4,7 @@ import { CoinCalculation } from "../typeorm/entities/CoinCalculation";
 import { AppDataSource } from "./database-access";
 import { sendEmail } from "./email-utils";
 import { ArbitrageManager } from "./arbitrage-manager";
+import { getAzbitAccount } from "./azbit";
 const csvParse = require('csv-parser');
 const fs = require('fs');
 
@@ -61,6 +62,21 @@ async function fetchAllTickers(exchange:string, limit:number = 100) {
     return Array.from(result);
   }
 
+  function transformData(data: any[]) {
+    return data.map(item => {
+        // Calculate bid_ask_spread_percentage
+        const bidAskSpreadPercentage = ((item.askPrice - item.bidPrice) / item.askPrice) * 100;
+
+        // Construct the new object
+        return {
+            symbol: item.currencyPairCode.replace('_', '/'),
+            bid_ask_spread_percentage: bidAskSpreadPercentage,
+            last: item.bidPrice,
+            volume: item.volume24h,
+        };
+    });
+}
+
 export async function checkPricesCopy() {
     try {
         console.log('Checking prices...');
@@ -84,6 +100,19 @@ export async function checkPricesCopy() {
           });
         });
       }
+
+      const azbit = await getAzbitAccount();
+      const azbitTickers = transformData(azbit);
+      azbitTickers.forEach((ticker: any) => {
+        const pair = ticker.symbol;
+        if (!allTickersMap[pair]) {
+          allTickersMap[pair] = [];
+        }
+        allTickersMap[pair].push({
+          ...ticker,
+          exchange: 'azbit',
+        });
+      });
 
       console.log('All tickers map:', allTickersMap.length);
 
@@ -131,6 +160,10 @@ export async function checkPricesCopy() {
     
                 const price1 = ticker1.last;
                 const price2 = ticker2.last;
+
+                if(ticker1.exchange == 'azbit' || ticker2.exchange == 'azbit') {
+                  console.log('Azbit pair:', pair);
+                }
 
                 // if (!price1) {
                 //   console.log('Price 1 is null:', ticker1.exchange);
