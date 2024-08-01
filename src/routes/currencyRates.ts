@@ -29,11 +29,13 @@ router.get('/test', async (_: Request, res: Response) => {
   }
 });
 
-router.get('/bidasks', async (_: Request, res: Response) => {
+router.get('/bidasks/:coin/:exch', async (req: Request, res: Response) => {
   try {
+    const coin = req.params.coin;
+    const exch = req.params.exch;
     const arbitrageManager = new ArbitrageManager();
-    const exchangeA = arbitrageManager.getExchange('gate');
-    const deposit_address = await exchangeA.fetchDepositAddress('BOME');
+    const exchangeA = arbitrageManager.getExchange(exch);
+    const deposit_address = await exchangeA.fetchDepositAddress(coin);
     // const arbitrageManager = new ArbitrageManager();
     // const ba = await arbitrageManager.fetchBidsAsks(arbitrageManager.getExchange('binance'));
     // console.log('BN:', ba);
