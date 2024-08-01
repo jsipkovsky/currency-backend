@@ -168,7 +168,7 @@ export class ArbitrageManager {
             console.log(`ExchangeA BTC Price: ${exchangeAPrice}`);
             console.log(`ExchangeB BTC Price: ${exchangeBPrice}`);
 
-            
+            // const res = await this.executeBuy(exchangeA, symbol, 1000, exchangeAPrice);
             const absolutePriceDifference = Math.abs(exchangeAPrice - exchangeBPrice);
             const averagePrice = (exchangeAPrice + exchangeBPrice) / 2;
             const priceDifferencePercent = (absolutePriceDifference / averagePrice) * 100;
@@ -188,7 +188,7 @@ export class ArbitrageManager {
                     // const exchangeA = this.getExchange('binance');
                     // const exchangeB = this.getExchange('gate');
                     const amount = Number((1000 / exchangeAPrice).toFixed(4));
-                    const res = await this.executeBuy(exchangeA as ccxt.binance, symbol, amount, exchangeAPrice);
+                    const res = await this.executeBuy(exchangeA, symbol, amount, exchangeAPrice);
                     console.log(JSON.stringify(res, null, 2));
                     console.log('buy good!!');
 
@@ -387,10 +387,10 @@ export class ArbitrageManager {
         // console.log(s);
     }
 
-    private async executeBuy(exchange: ccxt.binance, symbol: string, amount: number, price: number) {
+    private async executeBuy(exchange: ccxt.Exchange, symbol: string, amount: number, price: number) {
         console.log(`Buying ${amount} ${symbol} at ${price} on ${exchange.name}`);
         // Example: Buy using createOrder
-        const order = await exchange.createOrder(symbol, 'MARKET', 'BUY', amount);
+        const order = await exchange.createOrder(symbol, 'market', 'buy', amount, price);
         console.log(order);
         return order;
     }
