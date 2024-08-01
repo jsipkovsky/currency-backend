@@ -37,7 +37,7 @@ app.listen(port, async () => {
     //   throw error;
     // }
     // const arbitrageManager = new ArbitrageManager();
-    // const exchangeA = arbitrageManager.getExchange('htx');
+    // const exchangeA = arbitrageManager.executeArbitrage('MINA/USDT', 'binance', 'htx');
     // const deposit_address = await exchangeA.fetchDepositAddress('RDNT');
 
     // const withdrawal_response = await exchangeA.withdraw(

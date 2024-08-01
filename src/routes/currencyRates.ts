@@ -33,7 +33,7 @@ router.get('/bidasks', async (_: Request, res: Response) => {
   try {
     const arbitrageManager = new ArbitrageManager();
     const exchangeA = arbitrageManager.getExchange('gate');
-    const deposit_address = await exchangeA.fetchDepositAddress('MINA');
+    const deposit_address = await exchangeA.fetchDepositAddress('BOME');
     // const arbitrageManager = new ArbitrageManager();
     // const ba = await arbitrageManager.fetchBidsAsks(arbitrageManager.getExchange('binance'));
     // console.log('BN:', ba);
