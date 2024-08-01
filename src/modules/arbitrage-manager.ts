@@ -148,7 +148,7 @@ export class ArbitrageManager {
                 return null; // Return null if the timeout is reached
             }
             const resbalance = await this.getExchange('gate').fetchBalance({ type: 'spot' });
-            balance = resbalance[coin].free || 0;
+            balance = resbalance[coin]?.free || 0;
             await new Promise(resolve => setTimeout(resolve, 10000)); // Wait 10 seconds before re-checking
         } while (balance < amount);
 
@@ -399,7 +399,12 @@ export class ArbitrageManager {
     private async executeSell(exchange: ccxt.Exchange, symbol: string, amount: number, price: number) {
         console.log(`Selling ${amount} ${symbol} at ${price} on ${exchange.name}`);
         // Example: Buy using createOrder
-        const order = await exchange.createOrder(symbol, 'market', 'sell', amount, price, { type: 'spot' });
+        let order;
+        if(exchange.id == 'gate') {
+            order = await exchange.createOrder(symbol, 'market', 'sell', amount);
+        } else {
+            order = await exchange.createOrder(symbol, 'market', 'sell', amount, price, { type: 'spot' });
+        }
         console.log(order);
         return order;
     }
