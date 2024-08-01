@@ -44,10 +44,10 @@ export class CoinCalculation {
     @Column('decimal', { precision: 20, scale: 4, default: 0 })
         volume_day_two!: number;
 
-    @Column('decimal', { precision: 20, scale: 4, default: 0 })
+    @Column('decimal', { precision: 20, scale: 8, default: 0 })
         price_one!: number;
 
-    @Column('decimal', { precision: 20, scale: 4, default: 0 })
+    @Column('decimal', { precision: 20, scale: 8, default: 0 })
         price_two!: number;
 
     @Column('varchar', { nullable: false, length: 45 })

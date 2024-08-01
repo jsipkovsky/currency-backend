@@ -176,9 +176,9 @@ export class ArbitrageManager {
             console.log(`priceDifferencePercent: ${priceDifferencePercent}`);
             sendEmail('jansipkovsky2@gmail.com', 'crt test l3', priceDifferencePercent.toString());
 
-            if(exchange1 == 'binance' || exchange1 == 'gate') {
+            if(exchange1 == 'gate' && exchange2 == 'htx') {
 
-            if (priceDifferencePercent > 2.5 && exchangeAPrice < exchangeBPrice) {
+            if (priceDifferencePercent > 0 && exchangeAPrice < exchangeBPrice) {
 
                 const coin = symbol.split('/')[0];
                 const deposit_address = await exchangeB.fetchDepositAddress(coin);
@@ -188,7 +188,7 @@ export class ArbitrageManager {
                     // Short Sell on Exchange A
                     // const exchangeA = this.getExchange('binance');
                     // const exchangeB = this.getExchange('gate');
-                    const amount = Number((200 / exchangeAPrice).toFixed(4));
+                    const amount = Number((20 / exchangeAPrice).toFixed(4));
                     const res = await this.executeBuy(exchangeA, symbol, amount, exchangeAPrice);
                     console.log(JSON.stringify(res, null, 2));
                     console.log('buy good!!');
