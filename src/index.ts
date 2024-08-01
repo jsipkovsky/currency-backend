@@ -38,7 +38,7 @@ app.listen(port, async () => {
     // }
     // const arbitrageManager = new ArbitrageManager();
     // const exchangeA = arbitrageManager.getExchange('htx');
-    // const deposit_address = await exchangeA.fetchDepositAddress('ETH');
+    // const deposit_address = await exchangeA.fetchDepositAddress('RDNT');
 
     // const withdrawal_response = await exchangeA.withdraw(
     //     'MINA',
