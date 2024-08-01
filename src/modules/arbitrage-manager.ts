@@ -160,6 +160,7 @@ export class ArbitrageManager {
         try {
             // Monitor Prices
             const exchangeA = this.getExchange(exchange1);
+            // const dt = await exchangeA.fetchBalance();
             const exchangeB = this.getExchange(exchange2);
             const exchangeAPrice = Number(await this.getCurrentPrice(exchangeA, symbol));
             const exchangeBPrice = Number(await this.getCurrentPrice(exchangeB, symbol));
@@ -175,7 +176,7 @@ export class ArbitrageManager {
             console.log(`priceDifferencePercent: ${priceDifferencePercent}`);
             sendEmail('jansipkovsky2@gmail.com', 'crt test l3', priceDifferencePercent.toString());
 
-            if(exchange1 != 'xxx') {
+            if(exchange1 == 'binance' || exchange1 == 'gate') {
 
             if (priceDifferencePercent > 2.5 && exchangeAPrice < exchangeBPrice) {
 
@@ -187,7 +188,7 @@ export class ArbitrageManager {
                     // Short Sell on Exchange A
                     // const exchangeA = this.getExchange('binance');
                     // const exchangeB = this.getExchange('gate');
-                    const amount = Number((1000 / exchangeAPrice).toFixed(4));
+                    const amount = Number((200 / exchangeAPrice).toFixed(4));
                     const res = await this.executeBuy(exchangeA, symbol, amount, exchangeAPrice);
                     console.log(JSON.stringify(res, null, 2));
                     console.log('buy good!!');
