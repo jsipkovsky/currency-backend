@@ -5,9 +5,6 @@ dotenv.config();
 
 async function sendEmail(recipient: string, subject: string, body: string): Promise<void> {
   console.log('Sending email...' + body);
-  if (body.includes('MINA/USDT')) {
-  return;
-  }
   // Create a transporter object using the default SMTP transport
   const transporter = nodemailer.createTransport({
     service: 'gmail',
