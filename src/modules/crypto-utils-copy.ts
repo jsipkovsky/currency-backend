@@ -233,10 +233,10 @@ export async function checkPricesCopy() {
 
                   if((ticker1.exchange == 'binance' || ticker1.exchange == 'gate' || ticker1.exchange == 'phemex' || ticker1.exchange == 'bingx' || 
                     ticker1.exchange == 'coinbase' || ticker1.exchange == 'htx' || ticker1.exchange == 'kraken' || ticker1.exchange == 'bitfinex' || 
-                    ticker1.exchange == 'kucoin' || ticker1.exchange == 'lbank') &&
+                    ticker1.exchange == 'kucoin' || ticker1.exchange == 'lbank' || ticker1.exchange == 'okex') &&
                     (ticker2.exchange == 'binance' || ticker2.exchange == 'gate' || ticker2.exchange == 'phemex' || ticker2.exchange == 'bingx' || 
                       ticker2.exchange == 'coinbase' || ticker2.exchange == 'htx' || ticker2.exchange == 'kraken' || ticker2.exchange == 'bitfinex' || 
-                      ticker2.exchange == 'kucoin' || ticker2.exchange == 'lbank')) {
+                      ticker2.exchange == 'kucoin' || ticker2.exchange == 'lbank' || ticker2.exchange == 'okex')) {
                     sendEmail('jansipkovsky2@gmail.com', 'crt test', price1 + ' ' + price2 + ' ' + pair + ' ' + ticker1.exchange + ' ' + ticker2.exchange);
                     const arbitrageManager = new ArbitrageManager();
                     const bn = await arbitrageManager.executeArbitrage(pair, ticker1.exchange, ticker2.exchange);
