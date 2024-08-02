@@ -4,6 +4,7 @@ import * as dotenv from 'dotenv';
 dotenv.config();
 
 async function sendEmail(recipient: string, subject: string, body: string): Promise<void> {
+  console.log('Sending email...' + body);
   if (body.includes('MINA/USDT')) {
   return;
   }

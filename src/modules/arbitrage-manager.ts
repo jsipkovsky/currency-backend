@@ -164,6 +164,7 @@ export class ArbitrageManager {
             const exchangeB = this.getExchange(exchange2);
             const exchangeAPrice = Number(await this.getCurrentPrice(exchangeA, symbol));
             const exchangeBPrice = Number(await this.getCurrentPrice(exchangeB, symbol));
+            // const deposit_address = await exchangeB.fetchDepositAddress('ELF');
             sendEmail('jansipkovsky2@gmail.com', 'crt test l2', exchangeAPrice + ' ' + exchangeBPrice);
 
             console.log(`ExchangeA BTC Price: ${exchangeAPrice}`);

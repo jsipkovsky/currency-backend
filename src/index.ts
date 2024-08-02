@@ -28,7 +28,7 @@ app.listen(port, async () => {
 
     //arbitrageManager.checkTargetBalance('ETH', 0.2);
 
-    // const bn = await arbitrageManager.executeArbitrage('NEIRO/USDT', 'gate', 'htx');
+    // const bn = await arbitrageManager.executeArbitrage('ELF/USDT', 'binance', 'okex');
     // try {
     //   const response = await axios.get('http://ec2-3-70-92-222.eu-central-1.compute.amazonaws.com:3000/api/bidasks/NEIRO/fggf');
     //   return response;
