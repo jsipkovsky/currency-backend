@@ -124,6 +124,10 @@ export async function checkPricesCopy() {
 
       let totalPairs = 0;
       for (const pair in allTickersMap) {
+        if(pair == 'MINA/USDT') {
+          console.log('Mina pair:', pair);
+          continue;
+        }
         const tickers = allTickersMap[pair];
         if (tickers.length > 1) {
           totalPairs += tickers.length
