@@ -48,8 +48,8 @@ export class ArbitrageManager {
             }),
             bingx: new ccxt.bingx({
                 apiKey: process.env.BINGX_API_KEY,
-                secret: process.env.BINGX_SECRET  
-                  // verbose: true
+                secret: process.env.BINGX_SECRET,
+                verbose: true
             }),
             htx: new ccxt.htx({
                 apiKey: process.env.HTX_API_KEY,
@@ -162,7 +162,7 @@ export class ArbitrageManager {
             // const dt = await exchangeA.fetchBalance();
             const exchangeB = this.getExchange(exchange2);
 
-            const deposit_address = await exchangeA.fetchDepositAddress('ETH');
+            const deposit_address = await exchangeB.fetchDepositAddress('USDT');
             console.log('addr', JSON.stringify(deposit_address));
             if(deposit_address?.address) {
 
