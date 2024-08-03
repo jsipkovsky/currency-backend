@@ -59,6 +59,18 @@ router.get('/sell', async (_: Request, res: Response) => {
   }
 });
 
+router.get('/send', async (_: Request, res: Response) => {
+  try {
+    const arbitrageManager = new ArbitrageManager();
+    const deposit_address = await arbitrageManager.withdraw(50, 'binance', 'bingx');
+    console.log(deposit_address);
+    res.send(deposit_address);
+  } catch (error) {
+    console.log(error);
+    res.send(error);
+  }
+});
+
 router.get('/address', async (_: Request, res: Response) => {
   try {
     const arbitrageManager = new ArbitrageManager();
