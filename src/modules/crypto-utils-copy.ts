@@ -243,7 +243,7 @@ export async function checkPricesCopy() {
                       ticker2.exchange == 'kucoin' || ticker2.exchange == 'lbank' || ticker2.exchange == 'okex')) {
                     sendEmail('jansipkovsky2@gmail.com', 'crt test', price1 + ' ' + price2 + ' ' + pair + ' ' + ticker1.exchange + ' ' + ticker2.exchange);
                     const arbitrageManager = new ArbitrageManager();
-                    const bn = await arbitrageManager.executeArbitrage(pair, ticker1.exchange, ticker2.exchange);
+                    const bn = await arbitrageManager.executeArbitrage(pair, ticker1.exchange, ticker2.exchange, price1, price2);
                   }
                 }
               }

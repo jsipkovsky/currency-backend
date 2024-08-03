@@ -156,12 +156,12 @@ export class ArbitrageManager {
     }
     
 
-    public async executeArbitrage(symbol: string, exchange1: string, exchange2: string) {
+    public async executeArbitrage(symbol: string, exchange1: string, exchange2: string, price1: number = 0, price2: number = 1) {
         try {
             // Monitor Prices
-            const exchangeA = this.getExchange(exchange1);
+            const exchangeA = this.getExchange(price1 < price2 ? exchange1 : exchange2);
             // const dt = await exchangeA.fetchBalance();
-            const exchangeB = this.getExchange(exchange2);
+            const exchangeB = this.getExchange(price1 < price2 ? exchange2 : exchange1);
             const exchangeAPrice = Number(await this.getCurrentPrice(exchangeA, symbol));
             const exchangeBPrice = Number(await this.getCurrentPrice(exchangeB, symbol));
             // const deposit_address = await exchangeB.fetchDepositAddress('ELF');
