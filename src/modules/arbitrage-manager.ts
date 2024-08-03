@@ -49,7 +49,7 @@ export class ArbitrageManager {
             bingx: new ccxt.bingx({
                 apiKey: process.env.BINGX_API_KEY,
                 secret: process.env.BINGX_SECRET,
-                verbose: true
+                // verbose: true
             }),
             htx: new ccxt.htx({
                 apiKey: process.env.HTX_API_KEY,
