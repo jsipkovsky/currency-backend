@@ -154,6 +154,48 @@ export class ArbitrageManager {
 
         return balance; // Return the final balance
     }
+
+    public async withdraw(amount1: number, exchange1: string, exchange2: string) {
+        try {
+            // Monitor Prices
+            const exchangeA = this.getExchange(exchange1);
+            // const dt = await exchangeA.fetchBalance();
+            const exchangeB = this.getExchange(exchange2);
+
+            const deposit_address = await exchangeB.fetchDepositAddress('USDT');
+            console.log('addr', deposit_address?.address);
+            if(deposit_address?.address) {
+
+                    // Short Sell on Exchange A
+                    // const exchangeA = this.getExchange('binance');
+                    // const exchangeB = this.getExchange('gate');
+                const amount = amount1;
+                const withdrawal_response = await exchangeA.withdraw(
+                    'USDT',
+                    amount,
+                    deposit_address.address,
+                );
+                console.log(JSON.stringify(withdrawal_response, null, 2));
+                
+                // console.log(res);
+                // return res;
+
+                // const s = await exchange.createOrder(symbol, 'MARKET', 'SELL', 0.1);
+
+                // Buy on Exchange B
+                // await this.executeBuy(this.getExchange('binance'), 'BTC/USDT', 1, exchangeBPrice);
+
+                // // Transfer and Repay (This assumes direct transfer and repay methods are synchronous for simplicity)
+                // await this.transferAndRepay('BTC', 1);
+
+                // // Calculate Profit
+                // const profit = this.calculateProfit(exchangeAPrice, exchangeBPrice, 100);
+                // console.log(`Profit: $${profit}`);
+            }
+        } catch (error) {
+            console.error('Error executing arbitrage:', error);
+        }
+    }
     
 
     public async executeArbitrage(symbol: string, exchange1: string, exchange2: string, price1: number = 0, price2: number = 1) {
