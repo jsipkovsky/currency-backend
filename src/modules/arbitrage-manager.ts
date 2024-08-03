@@ -162,8 +162,8 @@ export class ArbitrageManager {
             // const dt = await exchangeA.fetchBalance();
             const exchangeB = this.getExchange(exchange2);
 
-            const deposit_address = await exchangeB.fetchDepositAddress('USDT');
-            console.log('addr', deposit_address?.address);
+            const deposit_address = await exchangeB.fetchDepositAddress('ETH');
+            console.log('addr', JSON.stringify(deposit_address));
             if(deposit_address?.address) {
 
                     // Short Sell on Exchange A
