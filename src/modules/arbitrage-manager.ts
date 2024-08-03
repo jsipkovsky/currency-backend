@@ -162,20 +162,20 @@ export class ArbitrageManager {
             // const dt = await exchangeA.fetchBalance();
             const exchangeB = this.getExchange(exchange2);
 
-            const deposit_address = await exchangeB.fetchDepositAddress('ETH');
+            const deposit_address = await exchangeA.fetchDepositAddress('ETH');
             console.log('addr', JSON.stringify(deposit_address));
             if(deposit_address?.address) {
 
                     // Short Sell on Exchange A
                     // const exchangeA = this.getExchange('binance');
-                    // const exchangeB = this.getExchange('gate');
-                const amount = amount1;
-                const withdrawal_response = await exchangeA.withdraw(
-                    'USDT',
-                    amount,
-                    deposit_address.address,
-                );
-                console.log(JSON.stringify(withdrawal_response, null, 2));
+                //     // const exchangeB = this.getExchange('gate');
+                // const amount = amount1;
+                // const withdrawal_response = await exchangeA.withdraw(
+                //     'USDT',
+                //     amount,
+                //     deposit_address.address,
+                // );
+                // console.log(JSON.stringify(withdrawal_response, null, 2));
                 
                 // console.log(res);
                 // return res;
