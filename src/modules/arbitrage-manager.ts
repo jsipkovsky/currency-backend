@@ -169,16 +169,16 @@ export class ArbitrageManager {
                     // Short Sell on Exchange A
                     // const exchangeA = this.getExchange('binance');
                 //     // const exchangeB = this.getExchange('gate');
-                // const amount = amount1;
-                // const withdrawal_response = await exchangeA.withdraw(
-                //     'USDT',
-                //     amount,
-                //     deposit_address.address,
-                // );
-                // console.log(JSON.stringify(withdrawal_response, null, 2));
+                const amount = amount1;
+                const withdrawal_response = await exchangeA.withdraw(
+                    'USDT',
+                    amount,
+                    deposit_address.address,
+                );
+                console.log(JSON.stringify(withdrawal_response, null, 2));
                 
                 // console.log(res);
-                // return res;
+                 return withdrawal_response;
 
                 // const s = await exchange.createOrder(symbol, 'MARKET', 'SELL', 0.1);
 
