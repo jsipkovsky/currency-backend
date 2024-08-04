@@ -232,7 +232,7 @@ export async function checkPricesCopy() {
                     volume_24h_2: volumeDayTwo,
                     is_centralized_2: isCentralized2
                   }
-                  console.log('validTrade:', validTrade);
+                  console.log('validTradeFirst:', (JSON.stringify(validTrade, null, 2)));
                   significantPriceDifferences.push(validTrade);
 
                   if((ticker1.exchange == 'binance' || ticker1.exchange == 'gate' || ticker1.exchange == 'phemex' || ticker1.exchange == 'bingx' || 
