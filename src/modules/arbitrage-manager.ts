@@ -232,30 +232,30 @@ export class ArbitrageManager {
                     // Short Sell on Exchange A
                     // const exchangeA = this.getExchange('binance');
                     // const exchangeB = this.getExchange('gate');
-                    const amount = Number((20 / exchangeAPrice).toFixed(4));
-                    const res = await this.executeBuy(exchangeA, symbol, amount, exchangeAPrice);
-                    console.log(JSON.stringify(res, null, 2));
-                    console.log('buy good!!');
+                    // const amount = Number((20 / exchangeAPrice).toFixed(4));
+                    // const res = await this.executeBuy(exchangeA, symbol, amount, exchangeAPrice);
+                    // console.log(JSON.stringify(res, null, 2));
+                    // console.log('buy good!!');
 
-                    const withdrawal_response = await exchangeA.withdraw(
-                        coin,
-                        amount,
-                        deposit_address.address,
-                    );
-                    console.log(JSON.stringify(withdrawal_response, null, 2));
-                    // console.log(withdrawal_response);
+                    // const withdrawal_response = await exchangeA.withdraw(
+                    //     coin,
+                    //     amount,
+                    //     deposit_address.address,
+                    // );
+                    // console.log(JSON.stringify(withdrawal_response, null, 2));
+                    // // console.log(withdrawal_response);
 
-                    console.log(`wd response ${amount} ${symbol}`);
-                    sendEmail('jansipkovsky2@gmail.com', 'crt test', 'wd response ' + JSON.stringify(withdrawal_response));
-                    const transfed = await this.checkTargetBalance(coin, amount); 
-                    console.log(transfed);
-                    console.log('try execute sell');
-                    const resSell = await this.executeSell(exchangeB, symbol, amount, exchangeBPrice);
-                    // console.log(resSell);
-                    console.log(JSON.stringify(resSell, null, 2))
-                    console.log('sell good');
+                    // console.log(`wd response ${amount} ${symbol}`);
+                    // sendEmail('jansipkovsky2@gmail.com', 'crt test', 'wd response ' + JSON.stringify(withdrawal_response));
+                    // const transfed = await this.checkTargetBalance(coin, amount); 
+                    // console.log(transfed);
+                    // console.log('try execute sell');
+                    // const resSell = await this.executeSell(exchangeB, symbol, amount, exchangeBPrice);
+                    // // console.log(resSell);
+                    // console.log(JSON.stringify(resSell, null, 2))
+                    // console.log('sell good');
 
-                    sendEmail('jansipkovsky2@gmail.com', 'crt test', JSON.stringify(resSell?.info) + JSON.stringify(res.info));
+                    // sendEmail('jansipkovsky2@gmail.com', 'crt test', JSON.stringify(resSell?.info) + JSON.stringify(res.info));
                 }
                 // console.log(res);
                 // return res;
