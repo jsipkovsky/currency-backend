@@ -46,11 +46,14 @@ router.get('/bidasks/:coin/:exch', async (req: Request, res: Response) => {
   }
 });
 
-router.get('/sell', async (_: Request, res: Response) => {
+router.get('/sell/:exchange/:coin/:amount', async (req: Request, res: Response) => {
   try {
     const arbitrageManager = new ArbitrageManager();
-    const price = await (arbitrageManager.getExchange('binance')).fetchTicker('MINA/USDT');
-    const order = await (arbitrageManager.getExchange('binance')).createOrder('MINA/USDT', 'market', 'sell', 6000, price.ask, { type: 'spot' });
+    const exchange = req.params.exchange;
+    const coin = req.params.coin;
+    const amount = parseFloat(req.params.amount);
+    const price = await (arbitrageManager.getExchange(exchange)).fetchTicker(coin + '/USDT');
+    const order = await (arbitrageManager.getExchange(exchange)).createOrder(coin + '/USDT', 'market', 'sell', amount, price.ask, { type: 'spot' });
     console.log(order);
     res.send(order);
   } catch (error) {
