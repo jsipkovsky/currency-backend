@@ -97,6 +97,19 @@ router.get('/balance/:exchange', async (req: Request, res: Response) => {
   }
 });
 
+router.get('/currencies/:exchange', async (req: Request, res: Response) => {
+  try {
+    const exchange = req.params.exchange;
+    const arbitrageManager = new ArbitrageManager();
+    const currencies = await arbitrageManager.getExchange(exchange).fetchCurrencies();
+    console.log(currencies);
+    res.send(currencies);
+  } catch (error) {
+    console.log(error);
+    res.send(error);
+  }
+});
+
 router.get('/withdrwal/:exchange/:coin/:amount', async (req: Request, res: Response) => {
   try {
     const exchange = req.params.exchange;
