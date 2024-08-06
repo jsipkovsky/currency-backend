@@ -83,4 +83,18 @@ router.get('/address', async (_: Request, res: Response) => {
   }
 });
 
+
+router.get('/balance/:exchange', async (req: Request, res: Response) => {
+  try {
+    const exchange = req.params.exchange;
+    const arbitrageManager = new ArbitrageManager();
+    const deposit_address = await arbitrageManager.getExchange(exchange).fetchBalance({ type: 'spot' });
+    console.log(deposit_address);
+    res.send(deposit_address);
+  } catch (error) {
+    console.log(error);
+    res.send(error);
+  }
+});
+
 export default router;
