@@ -97,4 +97,32 @@ router.get('/balance/:exchange', async (req: Request, res: Response) => {
   }
 });
 
+router.get('/withdrwal/:exchange/:coin/:amount', async (req: Request, res: Response) => {
+  try {
+    const exchange = req.params.exchange;
+    const coin = req.params.coin;
+    const amount = parseFloat(req.params.amount);
+    const arbitrageManager = new ArbitrageManager();
+    const exchangeA = arbitrageManager.getExchange(exchange);
+    const withdrawal_response = await exchangeA.withdraw(
+        coin,
+        amount,
+        '0x20452121E27B343472AC3f8e751848856d19265b',
+    );
+    console.log(JSON.stringify(withdrawal_response, null, 2));
+    res.send(withdrawal_response);
+  } catch (error) {
+    console.log(error);
+    res.send(error);
+  }
+});
+
+
+  // const withdrawal_response = await exchangeA.withdraw(
+                    //     coin,
+                    //     amount,
+                    //     deposit_address.address,
+                    // );
+                    // console.log(JSON.stringify(withdrawal_response, null, 2));
+
 export default router;
