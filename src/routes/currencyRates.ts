@@ -123,7 +123,7 @@ router.get('/withdrwal/:exchange/:coin/:amount', async (req: Request, res: Respo
     const withdrawal_response = await exchangeA.withdraw(
         coin,
         amount,
-        '0x20452121E27B343472AC3f8e751848856d19265b',
+        '0x20452121E27B343472AC3f8e751848856d19265b', undefined, { network: 'ERC20' }
     );
     console.log(JSON.stringify(withdrawal_response, null, 2));
     res.send(withdrawal_response);
