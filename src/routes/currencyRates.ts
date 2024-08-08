@@ -74,12 +74,13 @@ router.get('/send', async (_: Request, res: Response) => {
   }
 });
 
-router.get('/address/:exchange/:coin', async (req: Request, res: Response) => {
+router.get('/address/:exchange/:coin/:network', async (req: Request, res: Response) => {
   try {
     const arbitrageManager = new ArbitrageManager();
     const exchange = req.params.exchange;
     const coin = req.params.coin;
-    const deposit_address = await arbitrageManager.getExchange(exchange).fetchDepositAddress(coin);
+    const network = req.params.network;
+    const deposit_address = await arbitrageManager.getExchange(exchange).fetchDepositAddress(coin, { network});
     console.log(deposit_address);
     res.send(deposit_address);
   } catch (error) {
