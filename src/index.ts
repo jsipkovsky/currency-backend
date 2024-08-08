@@ -34,7 +34,7 @@ app.listen(port, async () => {
 
     // const bn = await arbitrageManager.withdraw(50, 'binance', 'bingx');
     // try {
-    //   const response = await axios.get('http://ec2-3-70-92-222.eu-central-1.compute.amazonaws.com:3000/api/currencies/binance');
+    //   const response = await axios.get('http://ec2-3-70-92-222.eu-central-1.compute.amazonaws.com:3000/api/withdrwal/binance/USDT/100');
     //   return response;
     // } catch (error) {
     //   console.error('Error fetching public IP:', error);
