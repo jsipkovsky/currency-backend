@@ -22,6 +22,10 @@ app.listen(port, async () => {
     console.log('Public IP:', ip);
 
     // const arbitrageManager = new ArbitrageManager();
+    // const exchangeB = arbitrageManager.getExchange('binanceNumi');
+
+    // const deposit_address = await exchangeB.fetchDepositAddress('USDT');
+    // console.log('Deposit address:', deposit_address);
     // const bn = await arbitrageManager.fetchBidsAsks(arbitrageManager.getExchange('binance'));
     // const bn = await arbitrageManager.executeArbitrage('ETH/USDT');
     // const resbalance = await arbitrageManager.getExchange('gate').fetchBalance({ type: 'spot' });

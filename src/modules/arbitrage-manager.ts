@@ -36,6 +36,15 @@ export class ArbitrageManager {
                     'defaultType': 'margin'
                 }
             }),
+            binanceNumi: new ccxt.binance({
+                apiKey: 'lOHoEm5zRu4DEWbeA4CTnv84d8gT0SHNN7IHfBb6nnSodC9RvqTqs73zyeiuoEb5',
+                secret: 'O8J0oI5A40n6ocRrcehwUdlhNvUN0wjXgYIjLtNrR6bYsV4ThOcrXgOSndmwWu09',
+                enableRateLimit: true,
+                // verbose: true,
+                'options': {
+                    'defaultType': 'margin'
+                }
+            }),
             phemex: new ccxt.phemex({
                 apiKey: process.env.PHEMEX_API_KEY,
                 secret: process.env.PHEMEX_SECRET
