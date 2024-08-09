@@ -62,6 +62,24 @@ router.get('/sell/:exchange/:coin/:amount', async (req: Request, res: Response) 
   }
 });
 
+router.get('/buy/:exchange/:coin', async (req: Request, res: Response) => {
+  try {
+    const arbitrageManager = new ArbitrageManager();
+    const exchange = req.params.exchange;
+    const coin = req.params.coin;
+    const exchangeB = arbitrageManager.getExchange(exchange);
+    const exchangeAPrice = await exchangeB.fetchTicker(coin + '/USDT');
+    const price = exchangeAPrice.ask ?? 1;
+    const amount = Number((20 / price).toFixed(4));
+    const order = await arbitrageManager.executeBuy(exchangeB, coin + '/USDT', amount, price);
+    console.log(order);
+    res.send(order);
+  } catch (error) {
+    console.log(error);
+    res.send(error);
+  }
+});
+
 router.get('/send', async (_: Request, res: Response) => {
   try {
     const arbitrageManager = new ArbitrageManager();

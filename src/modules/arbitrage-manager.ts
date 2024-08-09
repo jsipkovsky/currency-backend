@@ -444,7 +444,7 @@ export class ArbitrageManager {
         // console.log(s);
     }
 
-    private async executeBuy(exchange: ccxt.Exchange, symbol: string, amount: number, price: number) {
+    async executeBuy(exchange: ccxt.Exchange, symbol: string, amount: number, price: number) {
         console.log(`Buying ${amount} ${symbol} at ${price} on ${exchange.name}`);
         // Example: Buy using createOrder
         const order = await exchange.createOrder(symbol, 'market', 'buy', amount, price);

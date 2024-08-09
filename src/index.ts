@@ -21,8 +21,23 @@ app.listen(port, async () => {
     const ip = await getPublicIP();
     console.log('Public IP:', ip);
 
-    // const arbitrageManager = new ArbitrageManager();
-    // const exchangeB = arbitrageManager.getExchange('htx');
+//     const arbitrageManager = new ArbitrageManager();
+//     const exchangeB = arbitrageManager.getExchange('htx');
+//     const ticker = await exchangeB.fetchCurrencies( { type: 'spot' });
+//     const exchangeAPrice = await exchangeB.fetchTicker('RACA/USDT');
+// const price = exchangeAPrice.ask ?? 1;
+//        const amount = Number((20 / price).toFixed(4));
+//       const res = await arbitrageManager.executeBuy(exchangeB, 'RACA/USDT', amount, price);
+//       console.log(JSON.stringify(res, null, 2));
+//       console.log('buy good!!');
+
+//       const withdrawal_response = await exchangeB.withdraw(
+//           'G',
+//           amount * 0.9,
+//          '0x94c56b606f202f45d4d5a85ea2102474a7f9c8c2',
+//          undefined
+//       );
+//       console.log(JSON.stringify(withdrawal_response, null, 2));
 
     // const deposit_address = await exchangeB.fetchDepositAddress('ZEN');
     // console.log('Deposit address:', deposit_address);
@@ -34,7 +49,7 @@ app.listen(port, async () => {
 
     // const bn = await arbitrageManager.withdraw(50, 'binance', 'bingx');
     // try {
-    //   const response = await axios.get('http://ec2-3-70-92-222.eu-central-1.compute.amazonaws.com:3000/api/withdrwal/binance/USDT/100');
+    //   const response = await axios.get('http://ec2-3-70-92-222.eu-central-1.compute.amazonaws.com:3000/api/address/okex/LUNA/LUNA');
     //   return response;
     // } catch (error) {
     //   console.error('Error fetching public IP:', error);
