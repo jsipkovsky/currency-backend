@@ -53,7 +53,7 @@ app.listen(port, async () => {
     // const bn = await arbitrageManager.withdraw(50, 'binance', 'bingx');
     // try {
     //   const response = await axios.get('http://ec2-3-70-92-222.eu-central-1.compute.amazonaws.com:3000/api/address/okex/OM/ERC20');
-    //   // return response;
+    //   console.error('Error fetching public IP:', response);
     // } catch (error) {
     //   console.error('Error fetching public IP:', error);
     //   throw error;

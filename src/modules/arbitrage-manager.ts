@@ -4,6 +4,8 @@ import * as dotenv from 'dotenv';
 import { sendEmail } from './email-utils';
 dotenv.config();
 
+export const waitMilliseconds = (ms: number | undefined) => new Promise(resolve => setTimeout(resolve, ms));
+
 async function getServerTime() {
     try {
         const res = await axios.get(`https://api.binance.com'/api/v3/time`);
@@ -229,42 +231,44 @@ export class ArbitrageManager {
             console.log(`priceDifferencePercent: ${priceDifferencePercent}`);
             sendEmail('jansipkovsky2@gmail.com', 'crt test l3', priceDifferencePercent.toString());
 
-            if(exchange1 != 'xxx') {
+            if(exchange1 == 'binance' && exchange2 == 'okex') {
 
             if (priceDifferencePercent > 1.5 && exchangeAPrice < exchangeBPrice) {
-
+                sendEmail('jansipkovsky2@gmail.com', 'test', priceDifferencePercent.toString());
                 const coin = symbol.split('/')[0];
                 const deposit_address = await exchangeB.fetchDepositAddress(coin);
                 console.log('addr', deposit_address?.address);
                 if(deposit_address?.address) {
 
                     // Short Sell on Exchange A
-                    // const exchangeA = this.getExchange('binance');
-                    // const exchangeB = this.getExchange('gate');
-                    // const amount = Number((20 / exchangeAPrice).toFixed(4));
-                    // const res = await this.executeBuy(exchangeA, symbol, amount, exchangeAPrice);
-                    // console.log(JSON.stringify(res, null, 2));
-                    // console.log('buy good!!');
+                    const exchangeA = this.getExchange('binance');
+                    const exchangeB = this.getExchange('gate');
+                    const amount = Number((20 / exchangeAPrice).toFixed(4));
+                    const res = await this.executeBuy(exchangeA, symbol, amount, exchangeAPrice);
+                    console.log(JSON.stringify(res, null, 2));
+                    console.log('buy good!!');
 
-                    // const withdrawal_response = await exchangeA.withdraw(
-                    //     coin,
-                    //     amount,
-                    //     deposit_address.address,
-                    // );
-                    // console.log(JSON.stringify(withdrawal_response, null, 2));
-                    // // console.log(withdrawal_response);
+                    waitMilliseconds(3000);
 
-                    // console.log(`wd response ${amount} ${symbol}`);
-                    // sendEmail('jansipkovsky2@gmail.com', 'crt test', 'wd response ' + JSON.stringify(withdrawal_response));
-                    // const transfed = await this.checkTargetBalance(coin, amount); 
-                    // console.log(transfed);
-                    // console.log('try execute sell');
-                    // const resSell = await this.executeSell(exchangeB, symbol, amount, exchangeBPrice);
-                    // // console.log(resSell);
-                    // console.log(JSON.stringify(resSell, null, 2))
-                    // console.log('sell good');
+                    const withdrawal_response = await exchangeA.withdraw(
+                        coin,
+                        amount * 0.9,
+                        deposit_address.address,
+                    );
+                    console.log(JSON.stringify(withdrawal_response, null, 2));
+                    // console.log(withdrawal_response);
 
-                    // sendEmail('jansipkovsky2@gmail.com', 'crt test', JSON.stringify(resSell?.info) + JSON.stringify(res.info));
+                    console.log(`wd response ${amount} ${symbol}`);
+                    sendEmail('jansipkovsky2@gmail.com', 'crt test', 'wd response ' + JSON.stringify(withdrawal_response));
+                    const transfed = await this.checkTargetBalance(coin, amount); 
+                    console.log(transfed);
+                    console.log('try execute sell');
+                    const resSell = await this.executeSell(exchangeB, symbol, amount, exchangeBPrice);
+                    // console.log(resSell);
+                    console.log(JSON.stringify(resSell, null, 2))
+                    console.log('sell good');
+
+                    sendEmail('jansipkovsky2@gmail.com', 'crt test', JSON.stringify(resSell?.info) + JSON.stringify(res.info));
                 }
                 // console.log(res);
                 // return res;
