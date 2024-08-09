@@ -80,7 +80,7 @@ app.listen(port, async () => {
     // }).catch(err => {
     //   console.error('Error executing trade:', err);
     // });
-    schedule.scheduleJob('*/5 * * * *', checkPricesCopy);
+    schedule.scheduleJob('*/2 * * * *', checkPricesCopy);
   }).catch((error: Error) => {
     console.error('Error initializing dB:', error);
   });
