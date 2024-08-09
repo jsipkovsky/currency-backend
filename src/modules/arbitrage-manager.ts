@@ -250,20 +250,21 @@ export class ArbitrageManager {
 
                     waitMilliseconds(3000);
 
+                    const amountAdjusted = amount * 0.95;
                     const withdrawal_response = await exchangeA.withdraw(
                         coin,
-                        amount * 0.9,
+                        amountAdjusted,
                         deposit_address.address,
                     );
                     console.log(JSON.stringify(withdrawal_response, null, 2));
                     // console.log(withdrawal_response);
 
-                    console.log(`wd response ${amount} ${symbol}`);
+                    console.log(`wd response ${amountAdjusted} ${symbol}`);
                     sendEmail('jansipkovsky2@gmail.com', 'crt test', 'wd response ' + JSON.stringify(withdrawal_response));
-                    const transfed = await this.checkTargetBalance(coin, amount); 
+                    const transfed = await this.checkTargetBalance(coin, amountAdjusted); 
                     console.log(transfed);
                     console.log('try execute sell');
-                    const resSell = await this.executeSell(exchangeB, symbol, amount, exchangeBPrice);
+                    const resSell = await this.executeSell(exchangeB, symbol, amountAdjusted, exchangeBPrice);
                     // console.log(resSell);
                     console.log(JSON.stringify(resSell, null, 2))
                     console.log('sell good');
